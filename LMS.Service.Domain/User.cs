@@ -6,7 +6,6 @@
 //   The user.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace LMS.Service.Domain
 {
     using System;
@@ -19,26 +18,26 @@ namespace LMS.Service.Domain
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
-        private int UserID { get; set; }
+        public int UserID { get; set; }
 
         /// <summary>
         /// Gets or sets the login.
         /// </summary>
-        private string Login { get; set; }
+        public string Login { get; set; }
 
         /// <summary>
         /// Gets or sets the password.
         /// </summary>
-        private string Password { get; set; }
+        public string Password { get; set; }
 
         /// <summary>
         /// Gets or sets the time created.
         /// </summary>
-        private DateTime TimeCreated { get; set; }
+        public DateTime TimeCreated { get; set; }
 
         /// <summary>
         /// Gets or sets the number of books issued.
         /// </summary>
-        private int NumberOfBooksIssued { get; set; }
+        public int NumberOfBooksIssued { get; set; }
     }
 }

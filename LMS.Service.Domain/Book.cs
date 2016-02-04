@@ -6,32 +6,31 @@
 //   The book.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace LMS.Service.Domain
 {
     /// <summary>
-    /// The book.
+    ///     The book.
     /// </summary>
     public class Book
     {
         /// <summary>
-        /// Gets or sets the book id.
+        ///     Gets or sets the book id.
         /// </summary>
-        private int BookID { get; set; }
+        public int BookID { get; set; }
 
         /// <summary>
-        /// Gets or sets the title.
+        ///     Gets or sets the title.
         /// </summary>
-        private string Title { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
-        /// Gets or sets the author name.
+        ///     Gets or sets the author name.
         /// </summary>
-        private string AuthorName { get; set; }
+        public string AuthorName { get; set; }
 
         /// <summary>
-        /// Gets or sets the category.
+        ///     Gets or sets the category.
         /// </summary>
-        private string Category { get; set; }
+        public string Category { get; set; }
     }
 }
