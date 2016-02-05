@@ -9,7 +9,10 @@
 namespace LMS.DAL
 {
     using System;
+    using System.Data;
+    using System.Data.SqlClient;
 
+    using LMS.DAL.Utility;
     using LMS.Service.Domain;
 
     /// <summary>
@@ -17,6 +20,19 @@ namespace LMS.DAL
     /// </summary>
     public class UserDalManager
     {
+        /// <summary>
+        ///     The sql dal manager.
+        /// </summary>
+        private readonly SqlDalManager sqlDalManager;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="UserDalManager" /> class.
+        /// </summary>
+        public UserDalManager()
+        {
+            this.sqlDalManager = new SqlDalManager();
+        }
+
         /// <summary>
         /// The get user on login.
         /// </summary>
@@ -28,26 +44,65 @@ namespace LMS.DAL
         /// </returns>
         public User GetUserOnLogin(string login)
         {
-            var _user = new User();
+            var user = new User();
 
             // TODO return user from DB
-            return _user;
+            var sqlParameters = new SqlParameter[1];
+            sqlParameters[0] = new SqlParameter("@Login", SqlDbType.VarChar) { Value = login };
+            var dataTable = this.sqlDalManager.SelectProcedure("GetUserOnLogin", sqlParameters);
+
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow dataRow in dataTable.Rows)
+                {
+                    DateTime date;
+                    user.UserID = int.Parse(dataRow["UserId"].ToString());
+                    user.Login = dataRow["Login"].ToString();
+                    user.Password = dataRow["Password"].ToString();
+                    DateTime.TryParse(dataRow["TimeCreated"].ToString(), out date);
+                    user.TimeCreated = date;
+                    user.NumberOfBooksIssued = int.Parse(dataRow["NumberOfBooksIssued"].ToString());
+                }
+            }
+            else
+            {
+                return null;
+            }
+
+            return user;
         }
 
         /// <summary>
         /// The create user.
         /// </summary>
-        /// <param name="registerInfo">
-        /// The register info.
+        /// <param name="user">
+        /// The user.
         /// </param>
         /// <returns>
         /// The <see cref="User"/>.
         /// </returns>
-        /// <exception cref="NotImplementedException">
+        /// <exception cref="Exception">
         /// </exception>
-        public User CreateUser(RegisterInfo registerInfo)
+        public User CreateUser(User user)
         {
-            throw new NotImplementedException();
+            var sqlParameters = new SqlParameter[4];
+            sqlParameters[0] = new SqlParameter("@Login", SqlDbType.VarChar) { Value = user.Login };
+            sqlParameters[1] = new SqlParameter("@Password", SqlDbType.VarChar) { Value = user.Password };
+            sqlParameters[2] = new SqlParameter("@NumberOfBooksIssued", SqlDbType.Int)
+                                   {
+                                       Value = user.NumberOfBooksIssued
+                                   };
+            sqlParameters[3] = new SqlParameter("@TimeCreated", SqlDbType.DateTime) { Value = user.TimeCreated };
+            try
+            {
+                user.UserID = this.sqlDalManager.InsertProcedureWithOutputInsertedId("CreateUser", sqlParameters);
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+
+            return user;
         }
 
         /// <summary>
@@ -60,7 +115,9 @@ namespace LMS.DAL
         /// </exception>
         public void DeleteUser(string login)
         {
-            throw new NotImplementedException();
+            var sqlParameter = new SqlParameter[1];
+            sqlParameter[0] = new SqlParameter("@Login", SqlDbType.VarChar) { Value = login };
+            this.sqlDalManager.DeleteProcedure("DeleteUser", sqlParameter);
         }
     }
 }
