@@ -93,6 +93,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LMS.UI.Context\LMS.UI.Context.csproj">
+      <Project>{b5b37bea-8623-4c6e-81a8-100fbd3ac3fd}</Project>
+      <Name>LMS.UI.Context</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LMS.UI.Control\LMS.UI.Control.csproj">
+      <Project>{96a08a53-ce0d-400e-8f38-d354e0a4d81b}</Project>
+      <Name>LMS.UI.Control</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

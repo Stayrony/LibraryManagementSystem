@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -37,10 +38,34 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LMS.Service.BLL\LMS.Service.BLL.csproj">
+      <Project>{e566bf80-7d4f-412d-8837-648ad493bd0c}</Project>
+      <Name>LMS.Service.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LMS.Service.Domain\LMS.Service.Domain.csproj">
+      <Project>{df0f340c-9401-414c-99a8-4ec51127fb71}</Project>
+      <Name>LMS.Service.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LMS.UI.Context\LMS.UI.Context.csproj">
+      <Project>{b5b37bea-8623-4c6e-81a8-100fbd3ac3fd}</Project>
+      <Name>LMS.UI.Context</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LMS.UI.Contract\LMS.UI.Contract.csproj">
+      <Project>{dd0aaffb-303e-4e3e-ba9e-20c56cd78542}</Project>
+      <Name>LMS.UI.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LMS.UI.Utility\LMS.UI.Utility.csproj">
+      <Project>{e6296abb-39dd-4b8b-b887-c287f02da2cd}</Project>
+      <Name>LMS.UI.Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,8 @@
 ﻿<Window x:Class="LMS.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid />
+        Title="MainWindow" Height="600" Width="800">
+    
+    <Grid Name="mainRegion"/>
+    
 </Window>
