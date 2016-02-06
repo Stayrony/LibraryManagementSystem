@@ -15,7 +15,7 @@ namespace LMS.UI.Utility
     /// <summary>
     ///     The relay command.
     /// </summary>
-    public class RelayCommand
+    public class RelayCommand : ICommand
     {
         /// <summary>
         ///     The _can execute.
