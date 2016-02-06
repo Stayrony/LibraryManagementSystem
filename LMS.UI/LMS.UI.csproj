@@ -98,9 +98,17 @@
       <Project>{b5b37bea-8623-4c6e-81a8-100fbd3ac3fd}</Project>
       <Name>LMS.UI.Context</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LMS.UI.Contract\LMS.UI.Contract.csproj">
+      <Project>{dd0aaffb-303e-4e3e-ba9e-20c56cd78542}</Project>
+      <Name>LMS.UI.Contract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LMS.UI.Control\LMS.UI.Control.csproj">
       <Project>{96a08a53-ce0d-400e-8f38-d354e0a4d81b}</Project>
       <Name>LMS.UI.Control</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LMS.UI.Utility\LMS.UI.Utility.csproj">
+      <Project>{e6296abb-39dd-4b8b-b887-c287f02da2cd}</Project>
+      <Name>LMS.UI.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
