@@ -5,33 +5,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LMS.UI.Control"
              xmlns:utility="clr-namespace:LMS.UI.Utility;assembly=LMS.UI.Utility"
+             xmlns:materialDesignThemes="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid HorizontalAlignment="Center">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         
-        <StackPanel Orientation="Vertical" Width="200">
+        <StackPanel Orientation="Vertical" Width="250">
+            <Image Source="/LMS.UI;component/Resources/Library.jpg" RenderOptions.BitmapScalingMode="Fant"/>   
         <!-- LOGIN NAME -->
-        <TextBox x:Name="LoginNameTxt" Margin="0 5 0 5" 
+        <TextBox x:Name="LoginNameTxt" Margin="0 15 0 15" 
                  Text="{Binding Path=LoginName,
             UpdateSourceTrigger=PropertyChanged,
             ValidatesOnDataErrors=True,
             NotifyOnValidationError=True,
-            Mode=TwoWay}"/>
+            Mode=TwoWay}"
+                 materialDesignThemes:TextFieldAssist.Hint="Login"/>
      
         <!-- PASSWORD -->
         <PasswordBox x:Name="PasswordBox" 
-                     Margin="0 5 0 5"
+                     Margin="0 15 0 15"
                      utility:PasswordHelper.Attach="True"
                      utility:PasswordHelper.Password="{Binding Path=Password,
             UpdateSourceTrigger=PropertyChanged,
             ValidatesOnDataErrors=True,
             NotifyOnValidationError=True,
-            Mode=TwoWay}"/>
+            Mode=TwoWay}"
+                     materialDesignThemes:TextFieldAssist.Hint="Password"/>
         
         <!-- LOGIN BUTTON -->
         <Button x:Name="LoginButton" 
+                Margin="0 15 0 15"
                 Content="LOG IN"
-                Command="{Binding LoginCommand}"/>
+                Command="{Binding LoginCommand}"
+                Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -75,6 +75,10 @@
       <Project>{62570ee6-84be-4bd8-ad43-210fd91119fb}</Project>
       <Name>LMS.ViewModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MaterialDesign\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
+      <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
+      <Name>MaterialDesignThemes.Wpf</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
