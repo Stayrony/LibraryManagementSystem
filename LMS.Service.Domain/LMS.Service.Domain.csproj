@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Book.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="LoginInfo.cs" />
     <Compile Include="RegisterInfo.cs" />
     <Compile Include="User.cs" />
