@@ -103,7 +103,7 @@ namespace LMS.DAL.Utility
         /// </exception>
         public int InsertProcedureWithOutputInsertedId(string procedureName, SqlParameter[] sqlParameters)
         {
-            int id;
+            int id = 0;
             using (var cmd = new SqlCommand(procedureName, this.conn))
             {
                 try
