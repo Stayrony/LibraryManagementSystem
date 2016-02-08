@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookDalManagerTester.cs" />
     <Compile Include="CategoryDalManagerTester.cs" />
     <Compile Include="UserDalManagerTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
