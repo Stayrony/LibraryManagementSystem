@@ -52,8 +52,8 @@ namespace LMS.DAL.Test
         public void GetCategoryIDByCategoryNameBasicTest()
         {
             string categoryName = "Fiction";
-            int? id = this.categoryDalManager.GetCategoryIDByCategoryName(categoryName);
-            if (id.HasValue)
+            int id = this.categoryDalManager.GetCategoryIDByCategoryName(categoryName);
+            if (id != 0)
             {
                 Console.WriteLine("CategoryID = " + id);
             }

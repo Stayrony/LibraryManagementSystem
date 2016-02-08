@@ -26,11 +26,16 @@ namespace LMS.Service.Domain
         /// <summary>
         ///     Gets or sets the author name.
         /// </summary>
-        public string AuthorName { get; set; }
+        public string Author { get; set; }
 
         /// <summary>
         ///     Gets or sets the category.
         /// </summary>
         public string Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the quantity of books issued.
+        /// </summary>
+        public int QuantityOfBooksIssued { get; set; }
     }
 }

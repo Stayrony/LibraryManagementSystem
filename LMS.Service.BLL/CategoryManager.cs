@@ -44,9 +44,10 @@ namespace LMS.Service.BLL
         /// </exception>
         public Category CreateCategory(string categoryName)
         {
-            int? categoryID = this.categoryDalManager.GetCategoryIDByCategoryName(categoryName);
-            if (categoryID.HasValue)
+            int categoryID = this.categoryDalManager.GetCategoryIDByCategoryName(categoryName);
+            if (categoryID != 0)
             {
+                // TODO ExceptionBase create AlreadyExist
                 throw new Exception("Category " + categoryName + " already exist.");
             }
 
