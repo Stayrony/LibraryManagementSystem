@@ -6,7 +6,6 @@
 //   The view model base.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace LMS.ViewModel
 {
     using System.Windows;

@@ -1,32 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LMS.Service.Domain;
-using NUnit.Framework;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserDalManagerTester.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The user dal manager tester.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace LMS.DAL.Test
 {
+    using System;
+
+    using LMS.Service.Domain;
+
+    using NUnit.Framework;
+
+    /// <summary>
+    /// The user dal manager tester.
+    /// </summary>
     [TestFixture]
     public class UserDalManagerTester
     {
+        /// <summary>
+        /// The user dal manager.
+        /// </summary>
         private UserDalManager userDalManager;
 
+        /// <summary>
+        /// The set up.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             this.userDalManager = new UserDalManager();
         }
 
+        /// <summary>
+        /// The get user on login basic test.
+        /// </summary>
         [Test]
         public void GetUserOnLoginBasicTest()
         {
             string login = "admin";
-            User user = userDalManager.GetUserOnLogin(login);
+            User user = this.userDalManager.GetUserOnLogin(login);
             Assert.That(user.Login, Is.EqualTo("admin"));
         }
 
+        /// <summary>
+        /// The create user basic test.
+        /// </summary>
         [Test]
         public void CreateUserBasicTest()
         {
@@ -36,13 +57,16 @@ namespace LMS.DAL.Test
             newUser.TimeCreated = DateTime.Now;
             newUser.NumberOfBooksIssued = 0;
 
-            User returnedUser = userDalManager.CreateUser(newUser);
+            User returnedUser = this.userDalManager.CreateUser(newUser);
             Console.WriteLine("Create user with Login - " + returnedUser.Login);
 
-            userDalManager.DeleteUser(newUser.Login);
+            this.userDalManager.DeleteUser(newUser.Login);
             Console.WriteLine("Delete user with Login - " + newUser.Login + " on CreateUserBasicTest");
         }
 
+        /// <summary>
+        /// The detele user basic test.
+        /// </summary>
         [Test]
         public void DeteleUserBasicTest()
         {
@@ -52,15 +76,17 @@ namespace LMS.DAL.Test
             newUser.TimeCreated = DateTime.Now;
             newUser.NumberOfBooksIssued = 2;
 
-            User returnedUser = userDalManager.CreateUser(newUser);
+            User returnedUser = this.userDalManager.CreateUser(newUser);
 
-            userDalManager.DeleteUser(returnedUser.Login);
+            this.userDalManager.DeleteUser(returnedUser.Login);
         }
 
+        /// <summary>
+        /// The tear down.
+        /// </summary>
         [TearDown]
         public void TearDown()
         {
-
         }
     }
 }

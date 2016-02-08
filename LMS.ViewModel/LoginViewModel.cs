@@ -7,19 +7,19 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.ComponentModel;
-using System.Windows.Input;
-using LMS.Service.BLL;
-using LMS.Service.Domain;
-using LMS.UI.Context;
-using LMS.UI.Contract;
-using LMS.UI.Utility;
-
 namespace LMS.ViewModel
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Windows;
+    using System.Windows.Input;
+
+    using LMS.Service.BLL;
+    using LMS.Service.Domain;
+    using LMS.UI.Context;
+    using LMS.UI.Contract;
+    using LMS.UI.Utility;
 
     /// <summary>
     ///     The login view model.
@@ -27,22 +27,40 @@ namespace LMS.ViewModel
     public class LoginViewModel : ViewModelBase, IDataErrorInfo
     {
         /// <summary>
-        /// The view.
+        ///     The password property.
         /// </summary>
-        private IView View;
+        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(
+            "Password", 
+            typeof(string), 
+            typeof(LoginViewModel), 
+            new UIPropertyMetadata(null));
 
         /// <summary>
-        /// The login info user.
+        /// The login property.
         /// </summary>
-        private LoginInfo loginInfo;
+        public static readonly DependencyProperty LoginProperty = DependencyProperty.Register(
+            "LoginName", 
+            typeof(string), 
+            typeof(LoginViewModel), 
+            new UIPropertyMetadata(null));
 
         /// <summary>
-        /// The login command.
+        ///     The view.
+        /// </summary>
+        private readonly IView View;
+
+        /// <summary>
+        ///     The login command.
         /// </summary>
         private RelayCommand loginCommand;
 
         /// <summary>
-        /// The sign up command.
+        ///     The login info user.
+        /// </summary>
+        private LoginInfo loginInfo;
+
+        /// <summary>
+        ///     The sign up command.
         /// </summary>
         private RelayCommand signUpCommand;
 
@@ -62,19 +80,9 @@ namespace LMS.ViewModel
             }
             catch (Exception exception)
             {
-                
                 throw exception;
             }
         }
-
-        /// <summary>
-        ///     The password property.
-        /// </summary>
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(
-            "Password",
-            typeof(string),
-            typeof(LoginViewModel),
-            new UIPropertyMetadata(null));
 
         /// <summary>
         ///     Gets or sets the password.
@@ -92,80 +100,93 @@ namespace LMS.ViewModel
             }
         }
 
-
-
+        /// <summary>
+        /// Gets or sets the login name.
+        /// </summary>
         public string LoginName
         {
-            get { return (string)GetValue(LoginProperty); }
-            set { SetValue(LoginProperty, value); }
+            get
+            {
+                return (string)this.GetValue(LoginProperty);
+            }
+
+            set
+            {
+                this.SetValue(LoginProperty, value);
+            }
         }
 
-        public static readonly DependencyProperty LoginProperty =
-           DependencyProperty.Register("LoginName", typeof(string), typeof(LoginViewModel), new UIPropertyMetadata(null));
-
-
+        /// <summary>
+        /// Gets the login command.
+        /// </summary>
         public ICommand LoginCommand
         {
             get
             {
-                if (loginCommand == null)
+                if (this.loginCommand == null)
                 {
-                    this.loginCommand = new RelayCommand(param => Login(), param => CanLogin);
+                    this.loginCommand = new RelayCommand(param => this.Login(), param => this.CanLogin);
                 }
+
                 return this.loginCommand;
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether can login.
+        /// </summary>
         private bool CanLogin
         {
             get
             {
                 return this.Validate;
-
             }
         }
 
+        /// <summary>
+        /// The login.
+        /// </summary>
         private void Login()
         {
             try
             {
-                loginInfo = new LoginInfo();
-                loginInfo.Login = this.LoginName;
-                loginInfo.Password = this.Password;
+                this.loginInfo = new LoginInfo();
+                this.loginInfo.Login = this.LoginName;
+                this.loginInfo.Password = this.Password;
 
-                var userManager = new UserManager();
-                User user = userManager.EnterTheSystem(loginInfo);
+                UserManager userManager = new UserManager();
+                User user = userManager.EnterTheSystem(this.loginInfo);
 
                 ControlManager.GetInstance().Place("MainWindow", "mainRegion", "DashboardControl");
-
             }
             catch (Exception exception)
             {
-                //TODO create Exception Base
-               this.View.ShowError(exception.ToString());
+                // TODO create Exception Base
+                this.View.ShowError(exception.ToString());
             }
         }
 
         #region Validation
+
         /// <summary>
-        /// The validated properties.
+        ///     The validated properties.
         /// </summary>
         private readonly List<string> ValidatedProperties = new List<string> { "LoginName", "Password" };
 
         /// <summary>
-        /// The validate.
+        ///     The validate.
         /// </summary>
         /// <param name="registerInfo">
-        /// The register info.
+        ///     The register info.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        ///     The <see cref="bool" />.
         /// </returns>
         private bool Validate
         {
             get
             {
-                foreach (var property in this.ValidatedProperties)
+                foreach (string property in this.ValidatedProperties)
                 {
                     if (this.GetValidationError(property) != null)
                     {
@@ -175,7 +196,6 @@ namespace LMS.ViewModel
 
                 return true;
             }
-
         }
 
         /// <summary>
@@ -205,6 +225,12 @@ namespace LMS.ViewModel
             return error;
         }
 
+        /// <summary>
+        /// The validate password.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         private string ValidatePassword()
         {
             string error = null;
@@ -213,13 +239,19 @@ namespace LMS.ViewModel
                 error = "Please, enter password.";
             }
 
-            //if (this.Password.Contains(" "))
-            //{
-            //    error = "Blank characters are not allowed in password.";
-            //}
+            // if (this.Password.Contains(" "))
+            // {
+            // error = "Blank characters are not allowed in password.";
+            // }
             return error;
         }
 
+        /// <summary>
+        /// The validate login.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         private string ValidateLogin()
         {
             string error = null;
@@ -227,16 +259,27 @@ namespace LMS.ViewModel
             {
                 error = "Please, enter login.";
             }
-            //if (this.LoginName.Contains(" "))
-            //{
-            //    error = "Blank characters are not allowed in login.";
-            //}
+
+            // if (this.LoginName.Contains(" "))
+            // {
+            // error = "Blank characters are not allowed in login.";
+            // }
             return error;
         }
 
         #endregion Validation
 
         #region IDataErrorInfo
+
+        /// <summary>
+        /// The i data error info.this.
+        /// </summary>
+        /// <param name="property">
+        /// The property.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         string IDataErrorInfo.this[string property]
         {
             get
@@ -246,10 +289,15 @@ namespace LMS.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the error.
+        /// </summary>
         string IDataErrorInfo.Error
         {
-            get { return null; }
-
+            get
+            {
+                return null;
+            }
         }
 
         #endregion IDataErrorInfo

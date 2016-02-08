@@ -1,26 +1,56 @@
-﻿using System;
-using LMS.DAL;
-using LMS.Service.Domain;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CategoryManager.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The category manager.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace LMS.Service.BLL
 {
+    using System;
+
+    using LMS.DAL;
+    using LMS.Service.Domain;
+
+    /// <summary>
+    /// The category manager.
+    /// </summary>
     public class CategoryManager
     {
-        private CategoryDalManager categoryDalManager;
+        /// <summary>
+        /// The category dal manager.
+        /// </summary>
+        private readonly CategoryDalManager categoryDalManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryManager"/> class.
+        /// </summary>
         public CategoryManager()
         {
-            categoryDalManager = new CategoryDalManager();
+            this.categoryDalManager = new CategoryDalManager();
         }
 
+        /// <summary>
+        /// The create category.
+        /// </summary>
+        /// <param name="categoryName">
+        /// The category name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Category"/>.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
         public Category CreateCategory(string categoryName)
         {
-            int? categoryID = categoryDalManager.GetCategoryIDByCategoryName(categoryName);
+            int? categoryID = this.categoryDalManager.GetCategoryIDByCategoryName(categoryName);
             if (categoryID.HasValue)
             {
                 throw new Exception("Category " + categoryName + " already exist.");
             }
-            Category category = categoryDalManager.CreateCategory(categoryName);
+
+            Category category = this.categoryDalManager.CreateCategory(categoryName);
             return category;
         }
     }

@@ -6,6 +6,7 @@
 //   The user manager.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace LMS.Service.BLL
 {
     using System;
@@ -34,7 +35,7 @@ namespace LMS.Service.BLL
         /// </returns>
         public User GetUserOnLogin(string login)
         {
-            var user = this.userDalManager.GetUserOnLogin(login);
+            User user = this.userDalManager.GetUserOnLogin(login);
             return user;
         }
 
@@ -51,7 +52,7 @@ namespace LMS.Service.BLL
         /// </exception>
         public User EnterTheSystem(LoginInfo loginInfo)
         {
-            var user = this.GetUserOnLogin(loginInfo.Login);
+            User user = this.GetUserOnLogin(loginInfo.Login);
 
             if (user != null)
             {
@@ -83,7 +84,7 @@ namespace LMS.Service.BLL
         /// </exception>
         public User CreateUser(RegisterInfo registerInfo)
         {
-            var newUser = new User();
+            User newUser = new User();
 
             if (!this.IsAlreadyUserExist(registerInfo.Login))
             {
@@ -147,7 +148,7 @@ namespace LMS.Service.BLL
         /// </returns>
         private bool IsAlreadyUserExist(string login)
         {
-            var user = this.GetUserOnLogin(login);
+            User user = this.GetUserOnLogin(login);
             if (user != null)
             {
                 return true;

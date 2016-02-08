@@ -7,9 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace LMS.UI.Contract
-{    /// <summary>
-     ///     The View interface.
-     /// </summary>
+{
+    /// <summary>
+    ///     The View interface.
+    /// </summary>
     public interface IView
     {
         /// <summary>
@@ -24,6 +25,5 @@ namespace LMS.UI.Contract
         /// The error.
         /// </param>
         void ShowError(string error);
-
     }
 }
