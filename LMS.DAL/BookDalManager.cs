@@ -62,7 +62,7 @@ namespace LMS.DAL
             sqlParameters[0] = new SqlParameter("@Title", SqlDbType.VarChar) { Value = book.Title };
             sqlParameters[1] = new SqlParameter("@Author", SqlDbType.VarChar) { Value = book.Author };
 
-            sqlParameters[3] = new SqlParameter("@QuantityOfBooksIssued", SqlDbType.Int)
+            sqlParameters[2] = new SqlParameter("@QuantityOfBooksIssued", SqlDbType.Int)
                                    {
                                        Value =
                                            book
@@ -123,8 +123,9 @@ namespace LMS.DAL
             sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = bookID };
             try
             {
+                //TODO create procedure GetBookByBookID
                 DataTable dataTable = this.sqlDalManager.SelectProcedure("GetBookByBookID", sqlParameters);
-                int categoryID = new int();
+              //  int categoryID = new int();
                 if (dataTable.Rows.Count > 0)
                 {
                     foreach (DataRow dataRow in dataTable.Rows)
@@ -136,7 +137,7 @@ namespace LMS.DAL
                     }
                 }
 
-                book.Category = this.categoryDalManager.GetCategoryNameByCategoryID(categoryID);
+            //    book.Category = this.categoryDalManager.GetCategoryNameByCategoryID(categoryID);
             }
             catch (Exception exception)
             {
@@ -182,11 +183,41 @@ namespace LMS.DAL
         }
 
         /// <summary>
-        /// The get books by title or author.
+        /// The get books by title.
         /// </summary>
         /// <param name="title">
         /// The title.
         /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
+        public List<Book> GetBooksByTitle(string title)
+        {
+            List<Book> books = new List<Book>();
+            SqlParameter[] sqlParameters = new SqlParameter[1];
+            sqlParameters[0] = new SqlParameter("@TitleSearch", SqlDbType.VarChar) { Value = title };
+
+            try
+            {
+                DataTable dataTable = this.sqlDalManager.SelectProcedure("SearchBookByTitle", sqlParameters);
+                if (dataTable.Rows.Count > 0)
+                {
+                    books = this.ParseBookFromDataTable(dataTable);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+
+            return books;
+        }
+
+        /// <summary>
+        /// The get books by  author.
+        /// </summary>
         /// <param name="author">
         /// The author.
         /// </param>
@@ -195,16 +226,15 @@ namespace LMS.DAL
         /// </returns>
         /// <exception cref="Exception">
         /// </exception>
-        public List<Book> GetBooksByTitleOrAuthor(string title, string author)
+        public List<Book> GetBooksByAuthor( string author)
         {
             List<Book> books = new List<Book>();
-            SqlParameter[] sqlParameters = new SqlParameter[2];
-            sqlParameters[0] = new SqlParameter("@TitleSearch", SqlDbType.VarChar) { Value = title };
-            sqlParameters[1] = new SqlParameter("@AuthorSearch", SqlDbType.VarChar) { Value = author };
+            SqlParameter[] sqlParameters = new SqlParameter[1];
+            sqlParameters[0] = new SqlParameter("@AuthorSearch", SqlDbType.VarChar) { Value = author };
 
             try
             {
-                DataTable dataTable = this.sqlDalManager.SelectProcedure("SearchBookByTitleOrAuthor", sqlParameters);
+                DataTable dataTable = this.sqlDalManager.SelectProcedure("SearchBookByAuthor", sqlParameters);
                 if (dataTable.Rows.Count > 0)
                 {
                     books = this.ParseBookFromDataTable(dataTable);

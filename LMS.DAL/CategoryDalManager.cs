@@ -115,6 +115,7 @@ namespace LMS.DAL
             sqlParameters[0] = new SqlParameter("CategoryID", SqlDbType.Int) { Value = categoryID };
             try
             {
+                //TODO create procedure GetCategoryNameByCategoryID
                 DataTable dataTable = this.sqlDalManager.SelectProcedure("GetCategoryNameByCategoryID", sqlParameters);
                 if (dataTable.Rows.Count > 0)
                 {
