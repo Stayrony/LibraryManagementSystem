@@ -42,6 +42,8 @@ namespace LMS.Service.BLL
         /// </returns>
         public Book CreateBook(Book book)
         {
+            //TODO Check exist Category
+            //BUG new book added to dbo.Book even without category. so BookCategory is empty
             Book createdBook = this.bookDalManager.CreateBook(book);
             return createdBook;
         }
@@ -75,9 +77,15 @@ namespace LMS.Service.BLL
         public List<Book> GetBooksBySearchCriteria(string title, string author, string category)
         {
             List<Book> books = new List<Book>();
-            if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(author))
+
+            if (!string.IsNullOrEmpty(title))
             {
-                books = this.bookDalManager.GetBooksByTitleOrAuthor(title, author);
+                books.AddRange(bookDalManager.GetBooksByTitle(title));
+            }
+
+            if (!string.IsNullOrEmpty(author))
+            {
+                books.AddRange(bookDalManager.GetBooksByAuthor(author));
             }
 
             if (!string.IsNullOrEmpty(category))
