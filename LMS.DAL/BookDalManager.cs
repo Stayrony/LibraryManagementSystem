@@ -123,9 +123,10 @@ namespace LMS.DAL
             sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = bookID };
             try
             {
-                //TODO create procedure GetBookByBookID
+                // TODO create procedure GetBookByBookID
                 DataTable dataTable = this.sqlDalManager.SelectProcedure("GetBookByBookID", sqlParameters);
-              //  int categoryID = new int();
+
+                // int categoryID = new int();
                 if (dataTable.Rows.Count > 0)
                 {
                     foreach (DataRow dataRow in dataTable.Rows)
@@ -137,7 +138,7 @@ namespace LMS.DAL
                     }
                 }
 
-            //    book.Category = this.categoryDalManager.GetCategoryNameByCategoryID(categoryID);
+                // book.Category = this.categoryDalManager.GetCategoryNameByCategoryID(categoryID);
             }
             catch (Exception exception)
             {
@@ -226,7 +227,7 @@ namespace LMS.DAL
         /// </returns>
         /// <exception cref="Exception">
         /// </exception>
-        public List<Book> GetBooksByAuthor( string author)
+        public List<Book> GetBooksByAuthor(string author)
         {
             List<Book> books = new List<Book>();
             SqlParameter[] sqlParameters = new SqlParameter[1];
@@ -307,6 +308,107 @@ namespace LMS.DAL
             }
 
             return books;
+        }
+
+        /// <summary>
+        /// The get all books.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        public List<Book> GetAllBooks()
+        {
+            List<Book> books = new List<Book>();
+            DataTable dataTable = this.sqlDalManager.SelectAllProcedure("GetAllBook");
+            if (dataTable.Rows.Count > 0)
+            {
+                books = this.ParseBookFromDataTable(dataTable);
+            }
+
+            return books;
+        }
+
+        /// <summary>
+        /// The issue book.
+        /// </summary>
+        /// <param name="book">
+        /// The book.
+        /// </param>
+        /// <param name="userID">
+        /// The user id.
+        /// </param>
+        /// <exception cref="Exception">
+        /// </exception>
+        public void IssueBook(Book book, int userID)
+        {
+            BookIssueDetail bookIssueDetail = new BookIssueDetail();
+            bookIssueDetail.BookID = book.BookID;
+            bookIssueDetail.BookIssuedOn = DateTime.Now;
+            bookIssueDetail.UserID = userID;
+
+            SqlParameter[] sqlParameters = new SqlParameter[3];
+            sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = book.BookID };
+            sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
+            sqlParameters[2] = new SqlParameter("@BookIssuedOn", SqlDbType.DateTime)
+                                   {
+                                       Value =
+                                           bookIssueDetail
+                                           .BookIssuedOn
+                                   };
+
+            try
+            {
+                bookIssueDetail.IssueID = this.sqlDalManager.InsertProcedureWithOutputInsertedId(
+                    "CreateBookIssueDetail", 
+                    sqlParameters);
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+        }
+
+        /// <summary>
+        /// The get books issued by user id.
+        /// </summary>
+        /// <param name="userID">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        public List<Book> GetBooksIssuedByUserID(int userID)
+        {
+            List<Book> books = new List<Book>();
+            SqlParameter[] sqlParameter = new SqlParameter[1];
+            sqlParameter[0] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
+            try
+            {
+                DataTable dataTable = this.sqlDalManager.SelectProcedure("GetBooksIssuedByUserID", sqlParameter);
+                if (dataTable.Rows.Count > 0)
+                {
+                    books = this.ParseBookFromDataTable(dataTable);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+
+            return books;
+        }
+
+        /// <summary>
+        /// The return book.
+        /// </summary>
+        /// <param name="book">
+        /// The book.
+        /// </param>
+        /// <param name="userID">
+        /// The user id.
+        /// </param>
+        public void ReturnBook(Book book, int userID)
+        {
         }
     }
 }

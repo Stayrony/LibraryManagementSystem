@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace LMS.Service.BLL
 {
+    using System;
     using System.Collections.Generic;
 
     using LMS.DAL;
@@ -42,8 +43,8 @@ namespace LMS.Service.BLL
         /// </returns>
         public Book CreateBook(Book book)
         {
-            //TODO Check exist Category
-            //BUG new book added to dbo.Book even without category. so BookCategory is empty
+            // TODO Check exist Category
+            // BUG new book added to dbo.Book even without category. so BookCategory is empty
             Book createdBook = this.bookDalManager.CreateBook(book);
             return createdBook;
         }
@@ -94,6 +95,46 @@ namespace LMS.Service.BLL
             }
 
             return books;
+        }
+
+        /// <summary>
+        /// The get all books.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        public List<Book> GetAllBooks()
+        {
+            return bookDalManager.GetAllBooks();
+        }
+
+        /// <summary>
+        /// The issue book.
+        /// </summary>
+        /// <param name="book">
+        /// The book.
+        /// </param>
+        /// <exception cref="Exception">
+        /// </exception>
+        public void IssueBook(Book book)
+        {
+            // TODO GetCurrentUser session
+            if (book.QuantityOfBooksIssued == 0)
+            {
+                throw new Exception("Current book are not available.");
+            }
+
+            // UPDATE QuantityOfBooksIssued in Book
+        }
+
+        /// <summary>
+        /// The return book.
+        /// </summary>
+        /// <param name="book">
+        /// The book.
+        /// </param>
+        public void ReturnBook(Book book)
+        {
         }
     }
 }
