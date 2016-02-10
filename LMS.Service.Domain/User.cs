@@ -35,9 +35,5 @@ namespace LMS.Service.Domain
         /// </summary>
         public DateTime TimeCreated { get; set; }
 
-        /// <summary>
-        /// Gets or sets the number of books issued.
-        /// </summary>
-        public int NumberOfBooksIssued { get; set; }
     }
 }

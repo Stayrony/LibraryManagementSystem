@@ -91,7 +91,6 @@ namespace LMS.Service.BLL
                 if (this.Validate(registerInfo))
                 {
                     newUser.Login = registerInfo.Login;
-                    newUser.NumberOfBooksIssued = 0;
                     newUser.Password = registerInfo.Password;
                     newUser.TimeCreated = DateTime.Now;
 

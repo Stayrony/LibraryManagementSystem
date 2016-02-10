@@ -61,7 +61,6 @@ namespace LMS.DAL
                     user.Password = dataRow["Password"].ToString();
                     DateTime.TryParse(dataRow["TimeCreated"].ToString(), out date);
                     user.TimeCreated = date;
-                    user.NumberOfBooksIssued = int.Parse(dataRow["NumberOfBooksIssued"].ToString());
                 }
             }
             else
@@ -85,14 +84,10 @@ namespace LMS.DAL
         /// </exception>
         public User CreateUser(User user)
         {
-            var sqlParameters = new SqlParameter[4];
+            var sqlParameters = new SqlParameter[3];
             sqlParameters[0] = new SqlParameter("@Login", SqlDbType.VarChar) { Value = user.Login };
             sqlParameters[1] = new SqlParameter("@Password", SqlDbType.VarChar) { Value = user.Password };
-            sqlParameters[2] = new SqlParameter("@NumberOfBooksIssued", SqlDbType.Int)
-                                   {
-                                       Value = user.NumberOfBooksIssued
-                                   };
-            sqlParameters[3] = new SqlParameter("@TimeCreated", SqlDbType.DateTime) { Value = user.TimeCreated };
+            sqlParameters[2] = new SqlParameter("@TimeCreated", SqlDbType.DateTime) { Value = user.TimeCreated };
             try
             {
                 user.UserID = this.sqlDalManager.InsertProcedureWithOutputInsertedId("CreateUser", sqlParameters);

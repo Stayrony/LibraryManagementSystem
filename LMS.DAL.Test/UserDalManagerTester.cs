@@ -55,7 +55,6 @@ namespace LMS.DAL.Test
             newUser.Login = "qwerty";
             newUser.Password = "qwerty";
             newUser.TimeCreated = DateTime.Now;
-            newUser.NumberOfBooksIssued = 0;
 
             User returnedUser = this.userDalManager.CreateUser(newUser);
             Console.WriteLine("Create user with Login - " + returnedUser.Login);
@@ -74,7 +73,6 @@ namespace LMS.DAL.Test
             newUser.Login = "ChiChi";
             newUser.Password = "ChiChi";
             newUser.TimeCreated = DateTime.Now;
-            newUser.NumberOfBooksIssued = 2;
 
             User returnedUser = this.userDalManager.CreateUser(newUser);
 
