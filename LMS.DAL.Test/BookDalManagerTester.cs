@@ -164,5 +164,43 @@ namespace LMS.DAL.Test
                 Console.WriteLine();
             }
         }
+
+        [Test]
+        public void IssueBookBasicTest()
+        {
+            int bookID = 5;
+            int userID = 1;
+
+            bookDalManager.CreateIssueBook(bookID, userID);
+        }
+
+        [Test]
+        public void UpdateQuantityOfBooksIssuedBasicTest()
+        {
+            int bookID = 1;
+            int countOfBorrowedBook = -1;
+            bookDalManager.UpdateQuantityOfBooksIssued(bookID, countOfBorrowedBook);
+        }
+
+        [Test]
+        public void GetBooksIssuedByUserIDBasicTest()
+        {
+            List<Book> books = new List<Book>();
+            int userID = 1;
+            books = bookDalManager.GetBooksIssuedByUserID(userID);
+            foreach (Book book in books)
+            {
+                Console.WriteLine("Title = " + book.Title);
+                Console.WriteLine("Author = " + book.Author);
+                Console.WriteLine("Category = " + book.Category);
+                Console.WriteLine();
+            }
+        }
+
+        [Test]
+        public void ReturnBookBasicTest()
+        {
+
+        }
     }
 }

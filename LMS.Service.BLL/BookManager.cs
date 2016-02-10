@@ -6,6 +6,9 @@
 //   The book manager.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System.Net.Configuration;
+
 namespace LMS.Service.BLL
 {
     using System;
@@ -114,17 +117,32 @@ namespace LMS.Service.BLL
         /// <param name="book">
         /// The book.
         /// </param>
+        /// <param name="countOfBorrowedBook">
+        /// The count of issued books.
+        /// </param>
         /// <exception cref="Exception">
         /// </exception>
-        public void IssueBook(Book book)
+        public void IssueBook(Book book, int countOfBorrowedBook)
         {
+            // we borrow that count of books, so we subtract from  total number of Books Issued
+            countOfBorrowedBook = - countOfBorrowedBook;
+
             // TODO GetCurrentUser session
+            int currentUserID = 1;
             if (book.QuantityOfBooksIssued == 0)
             {
                 throw new Exception("Current book are not available.");
             }
 
+            bookDalManager.CreateIssueBook(book.BookID, currentUserID);
+
             // UPDATE QuantityOfBooksIssued in Book
+            bool isUpdate = bookDalManager.UpdateQuantityOfBooksIssued(book.BookID, countOfBorrowedBook);
+            if (!isUpdate)
+            {
+                throw new Exception("Quantity Of Books didn't update");
+            }
+
         }
 
         /// <summary>
@@ -133,8 +151,17 @@ namespace LMS.Service.BLL
         /// <param name="book">
         /// The book.
         /// </param>
-        public void ReturnBook(Book book)
+        public void ReturnBook(Book book, int countOfReturnedBooks)
         {
+            // TODO GetCurrentUser session
+            int currentUserID = 1;
+
+            // we return that count of books, so we add from  total number of Books Issued
+            // UPDATE QuantityOfBooksIssued in Book
+            bookDalManager.UpdateQuantityOfBooksIssued(book.BookID, countOfReturnedBooks);
+
+            //delete row from IssueBook or update BookReturnedOn
+            bookDalManager.ReturnBook(book.BookID, currentUserID);
         }
     }
 }

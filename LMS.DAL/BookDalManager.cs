@@ -63,11 +63,11 @@ namespace LMS.DAL
             sqlParameters[1] = new SqlParameter("@Author", SqlDbType.VarChar) { Value = book.Author };
 
             sqlParameters[2] = new SqlParameter("@QuantityOfBooksIssued", SqlDbType.Int)
-                                   {
-                                       Value =
+            {
+                Value =
                                            book
                                            .QuantityOfBooksIssued
-                                   };
+            };
 
             try
             {
@@ -319,7 +319,7 @@ namespace LMS.DAL
         public List<Book> GetAllBooks()
         {
             List<Book> books = new List<Book>();
-            DataTable dataTable = this.sqlDalManager.SelectAllProcedure("GetAllBook");
+            DataTable dataTable = this.sqlDalManager.SelectAllProcedure("GetAllBooks");
             if (dataTable.Rows.Count > 0)
             {
                 books = this.ParseBookFromDataTable(dataTable);
@@ -329,7 +329,7 @@ namespace LMS.DAL
         }
 
         /// <summary>
-        /// The issue book.
+        /// The create issue book.
         /// </summary>
         /// <param name="book">
         /// The book.
@@ -339,28 +339,46 @@ namespace LMS.DAL
         /// </param>
         /// <exception cref="Exception">
         /// </exception>
-        public void IssueBook(Book book, int userID)
+        public void CreateIssueBook(int bookID, int userID)
         {
             BookIssueDetail bookIssueDetail = new BookIssueDetail();
-            bookIssueDetail.BookID = book.BookID;
+            bookIssueDetail.BookID = bookID;
             bookIssueDetail.BookIssuedOn = DateTime.Now;
             bookIssueDetail.UserID = userID;
 
             SqlParameter[] sqlParameters = new SqlParameter[3];
-            sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = book.BookID };
+            sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = bookID };
             sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
             sqlParameters[2] = new SqlParameter("@BookIssuedOn", SqlDbType.DateTime)
-                                   {
-                                       Value =
+            {
+                Value =
                                            bookIssueDetail
                                            .BookIssuedOn
-                                   };
+            };
 
             try
             {
                 bookIssueDetail.IssueID = this.sqlDalManager.InsertProcedureWithOutputInsertedId(
-                    "CreateBookIssueDetail", 
+                    "CreateBookIssueDetail",
                     sqlParameters);
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+
+            // ? return  bookIssueDetail ?
+        }
+
+        public bool UpdateQuantityOfBooksIssued(int bookID, int count)
+        {
+            SqlParameter[] sqlParameters = new SqlParameter[2];
+            sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = bookID };
+            sqlParameters[1] = new SqlParameter("@Count", SqlDbType.Int) { Value = count };
+
+            try
+            {
+                return sqlDalManager.UpdateProcedure("UpdateQuantityOfBooksIssued", sqlParameters);
             }
             catch (Exception exception)
             {
@@ -407,8 +425,23 @@ namespace LMS.DAL
         /// <param name="userID">
         /// The user id.
         /// </param>
-        public void ReturnBook(Book book, int userID)
+        public void ReturnBook(int bookID, int userID)
         {
+            //delete bookIssue
+            SqlParameter[] sqlParameters = new SqlParameter[3];
+            sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = bookID };
+            sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
+            sqlParameters[2] = new SqlParameter("@BookReturnedOn", SqlDbType.DateTime) { Value = DateTime.Now };
+            try
+            {
+                sqlDalManager.UpdateProcedure("ReturnBook", sqlParameters);
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+
+
         }
     }
 }
