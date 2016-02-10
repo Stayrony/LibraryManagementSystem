@@ -245,5 +245,39 @@ namespace LMS.DAL.Utility
                 return dataTable;
             }
         }
+
+        /// <summary>
+        /// The update procedure.
+        /// </summary>
+        /// <param name="procedureName">
+        /// The procedure name.
+        /// </param>
+        /// <param name="sqlParameters">
+        /// The sql parameter.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
+        public bool UpdateProcedure(string procedureName, SqlParameter[] sqlParameters)
+        {
+            using (var cmd = new SqlCommand(procedureName, this.conn))
+            {
+                try
+                {
+                    cmd.Connection = this.OpenConnection();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddRange(sqlParameters);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException exception)
+                {
+                    throw new Exception("Error - Connection.UpdateProcedure - Procedure : " + procedureName + exception);
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
