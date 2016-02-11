@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -62,6 +63,30 @@ namespace LMS.DAL
             }
 
             return category;
+        }
+
+        public List<Category> GetAllCategories()
+        {
+            List<Category> categories = new List<Category>();
+            try
+            {
+                DataTable dataTable = sqlDalManager.SelectAllProcedure("GetAllCategories");
+                if (dataTable.Rows.Count > 0)
+                {
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        Category category = new Category();
+                        category.CategoryID = int.Parse(dataRow["CategoryID"].ToString());
+                        category.CategoryName = dataRow["CategoryName"].ToString();
+                        categories.Add(category);
+                    }
+                }
+            }
+            catch (SqlException exception)
+            {
+                throw exception;
+            }
+            return categories;
         }
 
         /// <summary>
