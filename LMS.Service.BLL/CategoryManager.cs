@@ -6,6 +6,9 @@
 //   The category manager.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System.Collections.Generic;
+
 namespace LMS.Service.BLL
 {
     using System;
@@ -53,6 +56,17 @@ namespace LMS.Service.BLL
 
             Category category = this.categoryDalManager.CreateCategory(categoryName);
             return category;
+        }
+
+        /// <summary>
+        /// Get all categories.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        public List<Category> GetAllCategories()
+        {
+            return categoryDalManager.GetAllCategories();
         }
     }
 }

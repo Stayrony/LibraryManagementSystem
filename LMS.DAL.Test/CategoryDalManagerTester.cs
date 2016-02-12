@@ -6,6 +6,9 @@
 //   The category dal manager tester.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System.Collections.Generic;
+
 namespace LMS.DAL.Test
 {
     using System;
@@ -60,6 +63,21 @@ namespace LMS.DAL.Test
             else
             {
                 Console.WriteLine("Category " + categoryName + " is undefined");
+            }
+        }
+
+        /// <summary>
+        /// The get all categories basic test.
+        /// </summary>
+        [Test]
+        public void GetAllCategoriesBasicTest()
+        {
+            List<Category> categories = new List<Category>();
+            categories = categoryDalManager.GetAllCategories();
+            foreach (Category category in categories)
+            {
+                Console.WriteLine("CategoryID = " + category.CategoryID + "; CategoryName = " + category.CategoryName);
+                Console.WriteLine();
             }
         }
     }
