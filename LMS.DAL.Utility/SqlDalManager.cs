@@ -276,6 +276,11 @@ namespace LMS.DAL.Utility
                     throw new Exception("Error - Connection.UpdateProcedure - Procedure : " + procedureName + exception);
                     return false;
                 }
+                finally
+                {
+                    this.conn.Close();
+                }
+
             }
             return true;
         }
