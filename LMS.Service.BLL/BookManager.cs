@@ -84,12 +84,12 @@ namespace LMS.Service.BLL
 
             if (!string.IsNullOrEmpty(title))
             {
-                books.AddRange(bookDalManager.GetBooksByTitle(title));
+                books.AddRange(this.bookDalManager.GetBooksByTitle(title));
             }
 
             if (!string.IsNullOrEmpty(author))
             {
-                books.AddRange(bookDalManager.GetBooksByAuthor(author));
+                books.AddRange(this.bookDalManager.GetBooksByAuthor(author));
             }
 
             if (!string.IsNullOrEmpty(category))
@@ -108,7 +108,7 @@ namespace LMS.Service.BLL
         /// </returns>
         public List<Book> GetAllBooks()
         {
-            return bookDalManager.GetAllBooks();
+            return this.bookDalManager.GetAllBooks();
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace LMS.Service.BLL
         public void IssueBook(Book book, int countOfBorrowedBook)
         {
             // we borrow that count of books, so we subtract from  total number of Books Issued
-            countOfBorrowedBook = - countOfBorrowedBook;
+            countOfBorrowedBook = -countOfBorrowedBook;
 
             // TODO GetCurrentUser session
             int currentUserID = 1;
@@ -134,15 +134,26 @@ namespace LMS.Service.BLL
                 throw new Exception("Current book are not available.");
             }
 
-            bookDalManager.CreateIssueBook(book.BookID, currentUserID);
+            this.bookDalManager.CreateIssueBook(book.BookID, currentUserID);
 
             // UPDATE QuantityOfBooksIssued in Book
-            bool isUpdate = bookDalManager.UpdateQuantityOfBooksIssued(book.BookID, countOfBorrowedBook);
+            bool isUpdate = this.bookDalManager.UpdateQuantityOfBooksIssued(book.BookID, countOfBorrowedBook);
             if (!isUpdate)
             {
                 throw new Exception("Quantity Of Books didn't update");
             }
+        }
 
+        /// <summary>
+        /// The get books issued by user id.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        public List<Book> GetBooksIssuedByUserID()
+        {
+            int currentUserID = 1;
+            return this.bookDalManager.GetBooksIssuedByUserID(currentUserID);
         }
 
         /// <summary>
@@ -151,17 +162,20 @@ namespace LMS.Service.BLL
         /// <param name="book">
         /// The book.
         /// </param>
+        /// <param name="countOfReturnedBooks">
+        /// The count Of Returned Books.
+        /// </param>
         public void ReturnBook(Book book, int countOfReturnedBooks)
         {
             // TODO GetCurrentUser session
             int currentUserID = 1;
 
-            // we return that count of books, so we add from  total number of Books Issued
+            // we return that count of books, so we add count to total number of Books Issued
             // UPDATE QuantityOfBooksIssued in Book
-            bookDalManager.UpdateQuantityOfBooksIssued(book.BookID, countOfReturnedBooks);
+            this.bookDalManager.UpdateQuantityOfBooksIssued(book.BookID, countOfReturnedBooks);
 
-            //delete row from IssueBook or update BookReturnedOn
-            bookDalManager.ReturnBook(book.BookID, currentUserID);
+            // delete row from IssueBook or update BookReturnedOn
+            this.bookDalManager.ReturnBook(book.BookID, currentUserID);
         }
     }
 }

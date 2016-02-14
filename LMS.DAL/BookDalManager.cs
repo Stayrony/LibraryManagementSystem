@@ -319,10 +319,17 @@ namespace LMS.DAL
         public List<Book> GetAllBooks()
         {
             List<Book> books = new List<Book>();
-            DataTable dataTable = this.sqlDalManager.SelectAllProcedure("GetAllBooks");
-            if (dataTable.Rows.Count > 0)
+            try
             {
-                books = this.ParseBookFromDataTable(dataTable);
+                DataTable dataTable = this.sqlDalManager.SelectAllProcedure("GetAllBooks");
+                if (dataTable.Rows.Count > 0)
+                {
+                    books = this.ParseBookFromDataTable(dataTable);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
             }
 
             return books;
@@ -351,9 +358,7 @@ namespace LMS.DAL
             sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
             sqlParameters[2] = new SqlParameter("@BookIssuedOn", SqlDbType.DateTime)
             {
-                Value =
-                                           bookIssueDetail
-                                           .BookIssuedOn
+                Value = bookIssueDetail.BookIssuedOn
             };
 
             try
@@ -378,7 +383,7 @@ namespace LMS.DAL
 
             try
             {
-                return sqlDalManager.UpdateProcedure("UpdateQuantityOfBooksIssued", sqlParameters);
+                return this.sqlDalManager.UpdateProcedure("UpdateQuantityOfBooksIssued", sqlParameters);
             }
             catch (Exception exception)
             {
@@ -434,7 +439,7 @@ namespace LMS.DAL
             sqlParameters[2] = new SqlParameter("@BookReturnedOn", SqlDbType.DateTime) { Value = DateTime.Now };
             try
             {
-                sqlDalManager.UpdateProcedure("ReturnBook", sqlParameters);
+                this.sqlDalManager.UpdateProcedure("ReturnBook", sqlParameters);
             }
             catch (Exception exception)
             {
