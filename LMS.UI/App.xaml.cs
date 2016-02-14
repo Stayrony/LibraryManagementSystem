@@ -3,7 +3,7 @@
 //   
 // </copyright>
 // <summary>
-//   Логика взаимодействия для App.xaml
+//   Interaction logic for App.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ namespace LMS.UI
     using System.Windows;
 
     /// <summary>
-    ///     Логика взаимодействия для App.xaml
+    /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
@@ -29,9 +29,13 @@ namespace LMS.UI
                 ControlManager.GetInstance().Add("MainWindow", typeof(MainWindow));
                 ControlManager.GetInstance().Add("LoginControl", typeof(LoginControl));
                 ControlManager.GetInstance().Add("DashboardControl", typeof(DashboardControl));
+                ControlManager.GetInstance().Add("AddRemoveBookControl", typeof(AddRemoveBookControl));
+                ControlManager.GetInstance().Add("CreateCategoryControl", typeof(CreateCategoryControl));
+                ControlManager.GetInstance().Add("IssueBookControl", typeof(IssueBookControl));
+                ControlManager.GetInstance().Add("ReturnBookControl", typeof(ReturnBookControl));
 
                 this.mainWindow = ControlManager.GetInstance().GetControl("MainWindow") as MainWindow;
-                this.mainWindow.WindowStartupLocation= WindowStartupLocation.CenterScreen;
+                this.mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 this.mainWindow.Show();
 
                 ControlManager.GetInstance().Place("MainWindow", "mainRegion", "LoginControl");

@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DashboardControl.xaml.cs" company="">
+// <copyright file="IssueBookControl.xaml.cs" company="">
 //   
 // </copyright>
 // <summary>
-//   Interaction logic for DashboardControl.xaml
+//   Interaction logic for IssueBookControl.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,43 +16,42 @@ namespace LMS.UI.Control
     using LMS.ViewModel;
 
     /// <summary>
-    /// Interaction logic for DashboardControl.xaml
+    /// Interaction logic for IssueBookControl.xaml
     /// </summary>
-    public partial class DashboardControl : UserControl, IView
+    public partial class IssueBookControl : UserControl, IView
     {
         /// <summary>
-        /// Gets or sets the dashboard view model.
+        /// Gets or sets the issue book view model.
         /// </summary>
-        public DashboardViewModel DashboardViewModel
+        public IssueBookViewModel IssueBookViewModel
         {
             get
             {
-                return (DashboardViewModel)this.GetValue(DashboardViewModelyProperty);
+                return (IssueBookViewModel)this.GetValue(IssueBookProperty);
             }
 
             set
             {
-                this.SetValue(DashboardViewModelyProperty, value);
+                this.SetValue(IssueBookProperty, value);
             }
         }
 
         /// <summary>
-        /// The dashboard view modely property.
+        /// The issue book property.
         /// </summary>
-        public static readonly DependencyProperty DashboardViewModelyProperty =
-            DependencyProperty.Register(
-                "DashboardViewModel", 
-                typeof(DashboardViewModel), 
-                typeof(DashboardControl), 
-                new UIPropertyMetadata(null));
+        public static readonly DependencyProperty IssueBookProperty = DependencyProperty.Register(
+            "IssueBookViewModel", 
+            typeof(IssueBookViewModel), 
+            typeof(IssueBookControl), 
+            new UIPropertyMetadata(null));
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DashboardControl"/> class.
+        /// Initializes a new instance of the <see cref="IssueBookControl"/> class.
         /// </summary>
-        public DashboardControl()
+        public IssueBookControl()
         {
-            this.DashboardViewModel = new DashboardViewModel(this);
-            this.DataContext = this.DashboardViewModel;
+            this.IssueBookViewModel = new IssueBookViewModel(this);
+            this.DataContext = this.IssueBookViewModel;
             this.InitializeComponent();
             this.SetFocus();
         }

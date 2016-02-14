@@ -6,27 +6,14 @@
 //   Interaction logic for LoginControl.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using LMS.UI.Contract;
-using LMS.ViewModel;
-
 namespace LMS.UI.Control
 {
+    using System.Windows;
+    using System.Windows.Controls;
+
+    using LMS.UI.Contract;
+    using LMS.ViewModel;
+
     /// <summary>
     /// Interaction logic for LoginControl.xaml
     /// </summary>
@@ -39,12 +26,12 @@ namespace LMS.UI.Control
         {
             get
             {
-                return (LoginViewModel)GetValue(LoginViewModelProperty);
+                return (LoginViewModel)this.GetValue(LoginViewModelProperty);
             }
 
             set
             {
-                SetValue(LoginViewModelProperty, value);
+                this.SetValue(LoginViewModelProperty, value);
             }
         }
 
@@ -62,9 +49,9 @@ namespace LMS.UI.Control
         /// </summary>
         public LoginControl()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.LoginViewModel = new LoginViewModel(this);
-            this.DataContext = LoginViewModel;
+            this.DataContext = this.LoginViewModel;
             this.SetFocus();
         }
 

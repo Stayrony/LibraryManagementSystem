@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:LMS.UI"
+                    xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
+   
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Brown.Named.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <SolidColorBrush x:Key="BrownPrimary100Brush" Color="{StaticResource BrownPrimary100}"/>
+
+    <Style x:Key="SearchColorZoneStyle" TargetType="{x:Type materialDesign:ColorZone}">
+        <Style.Triggers>
+            <Trigger Property="materialDesign:ColorZone.IsMouseOver" Value="True">
+                <Setter Property="materialDesign:ColorZone.Background" Value="{StaticResource BrownPrimary100Brush}"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding IsFocused, ElementName=SearchTextBox}" Value="True">
+                <Setter Property="materialDesign:ColorZone.Background" Value="{StaticResource BrownPrimary100Brush}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+</ResourceDictionary>
