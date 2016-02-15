@@ -42,6 +42,16 @@
                     Content="LOG IN"
                     Command="{Binding LoginCommand}"
                     Style="{DynamicResource MaterialDesignRaisedDarkButton}" />
+
+            <!--SING UP LINK-->
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="New here?" HorizontalContentAlignment="Center"/>
+         <Hyperlink Command="{Binding Path=SignUpLinkCommand}" TextDecorations="None" 
+                    Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                    BaselineAlignment="Center">
+          <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Sign Up" Height="20"/>
+         </Hyperlink>
+            </TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>

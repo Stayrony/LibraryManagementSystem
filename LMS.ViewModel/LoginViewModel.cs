@@ -166,6 +166,23 @@ namespace LMS.ViewModel
             }
         }
 
+        public ICommand SignUpLinkCommand
+        {
+            get
+            {
+                if (this.signUpCommand == null)
+                {
+                    this.signUpCommand = new RelayCommand(param => SignUpLink());
+                }
+                return signUpCommand;
+            }
+        }
+
+        private void SignUpLink()
+        {
+           ControlManager.GetInstance().Place("MainWindow", "mainRegion", "RegisterControl");
+        }
+
         #region Validation
 
         /// <summary>

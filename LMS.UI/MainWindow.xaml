@@ -7,6 +7,7 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode ="Auto"
         FontFamily="{DynamicResource MaterialDesignFont}"
+        Icon="Resources/books.ico"
         Height="500" Width="800">
     
     <Grid Name="mainRegion" Background="{DynamicResource MaterialDesignPaper}"/>

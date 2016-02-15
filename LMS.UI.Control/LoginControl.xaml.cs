@@ -6,6 +6,9 @@
 //   Interaction logic for LoginControl.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System.Windows.Input;
+
 namespace LMS.UI.Control
 {
     using System.Windows;
@@ -39,9 +42,9 @@ namespace LMS.UI.Control
         /// The login view model property.
         /// </summary>
         public static readonly DependencyProperty LoginViewModelProperty = DependencyProperty.Register(
-            "LoginViewModel", 
-            typeof(LoginViewModel), 
-            typeof(LoginControl), 
+            "LoginViewModel",
+            typeof(LoginViewModel),
+            typeof(LoginControl),
             new UIPropertyMetadata(null));
 
         /// <summary>
@@ -60,6 +63,7 @@ namespace LMS.UI.Control
         /// </summary>
         public void SetFocus()
         {
+            FocusManager.SetFocusedElement(this, LoginNameTxt);
         }
 
         /// <summary>

@@ -63,6 +63,9 @@
       <DependentUpon>LoginControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterControl.xaml.cs">
+      <DependentUpon>RegisterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReturnBookControl.xaml.cs">
       <DependentUpon>ReturnBookControl.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LoginControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegisterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
