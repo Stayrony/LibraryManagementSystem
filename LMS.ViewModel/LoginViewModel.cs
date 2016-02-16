@@ -178,6 +178,9 @@ namespace LMS.ViewModel
             }
         }
 
+        /// <summary>
+        /// The sign up link.
+        /// </summary>
         private void SignUpLink()
         {
            ControlManager.GetInstance().Place("MainWindow", "mainRegion", "RegisterControl");
@@ -255,11 +258,10 @@ namespace LMS.ViewModel
             {
                 error = "Please, enter password.";
             }
-
-            // if (this.Password.Contains(" "))
-            // {
-            // error = "Blank characters are not allowed in password.";
-            // }
+            else if (this.Password.Contains(" "))
+            {
+                error = "Blank characters are not allowed in password.";
+            }
             return error;
         }
 
@@ -276,11 +278,10 @@ namespace LMS.ViewModel
             {
                 error = "Please, enter login.";
             }
-
-            // if (this.LoginName.Contains(" "))
-            // {
-            // error = "Blank characters are not allowed in login.";
-            // }
+            else if (this.LoginName.Contains(" "))
+            {
+                error = "Blank characters are not allowed in login.";
+            }
             return error;
         }
 
