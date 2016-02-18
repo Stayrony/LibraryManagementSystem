@@ -63,11 +63,11 @@ namespace LMS.DAL
             sqlParameters[1] = new SqlParameter("@Author", SqlDbType.VarChar) { Value = book.Author };
 
             sqlParameters[2] = new SqlParameter("@QuantityOfBooksIssued", SqlDbType.Int)
-            {
-                Value =
+                                   {
+                                       Value =
                                            book
                                            .QuantityOfBooksIssued
-            };
+                                   };
 
             try
             {
@@ -338,8 +338,8 @@ namespace LMS.DAL
         /// <summary>
         /// The create issue book.
         /// </summary>
-        /// <param name="book">
-        /// The book.
+        /// <param name="bookID">
+        /// The book ID.
         /// </param>
         /// <param name="userID">
         /// The user id.
@@ -357,14 +357,16 @@ namespace LMS.DAL
             sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = bookID };
             sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
             sqlParameters[2] = new SqlParameter("@BookIssuedOn", SqlDbType.DateTime)
-            {
-                Value = bookIssueDetail.BookIssuedOn
-            };
+                                   {
+                                       Value =
+                                           bookIssueDetail
+                                           .BookIssuedOn
+                                   };
 
             try
             {
                 bookIssueDetail.IssueID = this.sqlDalManager.InsertProcedureWithOutputInsertedId(
-                    "CreateBookIssueDetail",
+                    "CreateBookIssueDetail", 
                     sqlParameters);
             }
             catch (Exception exception)
@@ -375,6 +377,20 @@ namespace LMS.DAL
             // ? return  bookIssueDetail ?
         }
 
+        /// <summary>
+        /// The update quantity of books issued.
+        /// </summary>
+        /// <param name="bookID">
+        /// The book id.
+        /// </param>
+        /// <param name="count">
+        /// The count.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
         public bool UpdateQuantityOfBooksIssued(int bookID, int count)
         {
             SqlParameter[] sqlParameters = new SqlParameter[2];
@@ -424,15 +440,15 @@ namespace LMS.DAL
         /// <summary>
         /// The return book.
         /// </summary>
-        /// <param name="book">
-        /// The book.
+        /// <param name="bookID">
+        /// The book ID.
         /// </param>
         /// <param name="userID">
         /// The user id.
         /// </param>
         public void ReturnBook(int bookID, int userID)
         {
-            //delete bookIssue
+            // delete bookIssue
             SqlParameter[] sqlParameters = new SqlParameter[3];
             sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = bookID };
             sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
@@ -445,8 +461,119 @@ namespace LMS.DAL
             {
                 throw exception;
             }
+        }
 
+        /// <summary>
+        /// The get borrowed book by author.
+        /// </summary>
+        /// <param name="author">
+        /// The author.
+        /// </param>
+        /// <param name="userID">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
+        public List<Book> GetBorrowedBookByAuthor(string author, int userID)
+        {
+            List<Book> books = new List<Book>();
+            SqlParameter[] sqlParameters = new SqlParameter[2];
+            sqlParameters[0] = new SqlParameter("@AuthorSearch", SqlDbType.VarChar) { Value = author };
+            sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
 
+            try
+            {
+                DataTable dataTable = this.sqlDalManager.SelectProcedure("SearchBorrowedBookByAuthor", sqlParameters);
+                if (dataTable.Rows.Count > 0)
+                {
+                    books = this.ParseBookFromDataTable(dataTable);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+
+            return books;
+        }
+
+        /// <summary>
+        /// The get borrowed book by title.
+        /// </summary>
+        /// <param name="title">
+        /// The title.
+        /// </param>
+        /// <param name="userID">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
+        public List<Book> GetBorrowedBookByTitle(string title, int userID)
+        {
+            List<Book> books = new List<Book>();
+            SqlParameter[] sqlParameters = new SqlParameter[2];
+            sqlParameters[0] = new SqlParameter("@TitleSearch", SqlDbType.VarChar) { Value = title };
+            sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
+
+            try
+            {
+                DataTable dataTable = this.sqlDalManager.SelectProcedure("SearchBorrowedBookByTitle", sqlParameters);
+                if (dataTable.Rows.Count > 0)
+                {
+                    books = this.ParseBookFromDataTable(dataTable);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+
+            return books;
+        }
+
+        /// <summary>
+        /// The get borrowed book by category.
+        /// </summary>
+        /// <param name="category">
+        /// The category.
+        /// </param>
+        /// <param name="userID">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
+        public List<Book> GetBorrowedBookByCategory(string category, int userID)
+        {
+            List<Book> books = new List<Book>();
+            SqlParameter[] sqlParameters = new SqlParameter[2];
+            sqlParameters[0] = new SqlParameter("@CategorySearch", SqlDbType.VarChar) { Value = category };
+            sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
+
+            try
+            {
+                DataTable dataTable = this.sqlDalManager.SelectProcedure(
+                    "SearchBorrowedBookByCategoryName", 
+                    sqlParameters);
+                if (dataTable.Rows.Count > 0)
+                {
+                    books = this.ParseBookFromDataTable(dataTable);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+
+            return books;
         }
     }
 }
