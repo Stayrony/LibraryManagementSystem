@@ -45,11 +45,14 @@
     <Compile Include="AddRemoveBookViewModel.cs" />
     <Compile Include="CreateCategoryViewModel.cs" />
     <Compile Include="DashboardViewModel.cs" />
+    <Compile Include="IssueBookSearchBookViewModel.cs" />
     <Compile Include="IssueBookViewModel.cs" />
     <Compile Include="LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterViewModel.cs" />
+    <Compile Include="ReturnBookSearchBookViewModel.cs" />
     <Compile Include="ReturnBookViewModel.cs" />
+    <Compile Include="SearchBookViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

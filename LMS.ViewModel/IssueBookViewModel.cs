@@ -50,12 +50,6 @@ namespace LMS.ViewModel
         /// </summary>
         private List<Book> books;
 
-
-        /// <summary>
-        /// The search criteria collection.
-        /// </summary>
-        private List<string> searchCriteriaCollection;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="IssueBookViewModel"/> class.
         /// </summary>
@@ -66,33 +60,16 @@ namespace LMS.ViewModel
         /// </exception>
         public IssueBookViewModel(IView view)
         {
-
             try
             {
                 this.View = view;
                 this.bookManager = new BookManager();
                 this.books = new List<Book>();
                 this.books = this.bookManager.GetAllBooks();
-                searchCriteriaCollection = new List<string>();
-                this.searchCriteriaCollection.Add("all");
-                this.searchCriteriaCollection.Add("title");
-                this.searchCriteriaCollection.Add("author");
-                this.searchCriteriaCollection.Add("category");
             }
             catch (Exception exception)
             {
                 throw exception;
-            }
-        }
-
-        /// <summary>
-        /// Gets the books available for issue.
-        /// </summary>
-        public ObservableCollection<Book> BooksAvailableForIssue
-        {
-            get
-            {
-                return new ObservableCollection<Book>(this.books);
             }
         }
 
@@ -135,85 +112,9 @@ namespace LMS.ViewModel
         private void IssueBook()
         {
             this.bookManager.IssueBook(this.SelectedBook, 1);
-            //TODO update quantity of issued book
+
+            // TODO update quantity of issued book
         }
-
-        /// <summary>
-        /// Gets the search book command.
-        /// </summary>
-        public ICommand SearchBookCommand
-        {
-            get
-            {
-                if (this.searchBookCommand == null)
-                {
-                    this.searchBookCommand = new RelayCommand(param => this.SearchBook());
-                }
-
-                return this.searchBookCommand;
-            }
-        }
-
-        /// <summary>
-        /// The search book.
-        /// </summary>
-        private void SearchBook()
-        {
-            // TODO search book
-
-            // SelectedSearchCriteria
-            //TODO update observable collection book
-            string title = string.Empty;
-            string author = string.Empty;
-            string category = string.Empty;
-
-            switch (this.SelectedSearchCriteria)
-            {
-                case "all":
-                    break;
-                case "title":
-                    title = this.SearchString;
-                    break;
-                case "author":
-                    author = this.SearchString;
-                    break;
-                case "category":
-                    category = this.SearchString;
-                    break;
-            }
-
-            
-            this.books = this.bookManager.GetBooksBySearchCriteria(title, author, category);
-            //   CollectionViewSource.GetDefaultView()
-            // BooksAvailableForIssue.
-
-        }
-
-        /// <summary>
-        /// Gets or sets the searching criteria.
-        /// </summary>
-        public string SearchString
-        {
-            get
-            {
-                return (string)this.GetValue(SearchingCriteriaProperty);
-            }
-
-            set
-            {
-                this.SetValue(SearchingCriteriaProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// The searching criteria property.
-        /// </summary>
-        public static readonly DependencyProperty SearchingCriteriaProperty =
-            DependencyProperty.Register(
-                "SearchString",
-                typeof(string),
-                typeof(IssueBookViewModel),
-                new UIPropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the selected book.
@@ -235,46 +136,9 @@ namespace LMS.ViewModel
         /// The selected book property.
         /// </summary>
         public static readonly DependencyProperty SelectedBookProperty = DependencyProperty.Register(
-            "SelectedBook",
-            typeof(Book),
-            typeof(IssueBookViewModel),
+            "SelectedBook", 
+            typeof(Book), 
+            typeof(IssueBookViewModel), 
             new UIPropertyMetadata(null));
-
-        /// <summary>
-        /// Gets the search criteria collection.
-        /// </summary>
-        public List<string> SearchCriteriaCollection
-        {
-            get
-            {
-                return this.searchCriteriaCollection;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the selected search criteria.
-        /// </summary>
-        public string SelectedSearchCriteria
-        {
-            get
-            {
-                return (string)this.GetValue(SelectedSearchCriteriaProperty);
-            }
-            set
-            {
-                this.SetValue(SelectedSearchCriteriaProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// The selected search criteria property.
-        /// </summary>
-        public static readonly DependencyProperty SelectedSearchCriteriaProperty =
-            DependencyProperty.Register("SelectedSearchCriteria",
-            typeof(string), typeof(IssueBookViewModel),
-            new UIPropertyMetadata(null));
-
-
-
     }
 }

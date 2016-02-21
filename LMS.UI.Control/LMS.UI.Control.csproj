@@ -69,6 +69,9 @@
     <Compile Include="ReturnBookControl.xaml.cs">
       <DependentUpon>ReturnBookControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SearchBookControl.xaml.cs">
+      <DependentUpon>SearchBookControl.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="AddRemoveBookControl.xaml">
@@ -100,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ReturnBookControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SearchBookControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

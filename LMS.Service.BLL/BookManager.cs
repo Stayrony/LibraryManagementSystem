@@ -129,6 +129,7 @@ namespace LMS.Service.BLL
 
             // TODO GetCurrentUser session
             int currentUserID = 1;
+
             if (book.QuantityOfBooksIssued == 0)
             {
                 throw new Exception("Current book are not available.");
@@ -176,6 +177,83 @@ namespace LMS.Service.BLL
 
             // delete row from IssueBook or update BookReturnedOn
             this.bookDalManager.ReturnBook(book.BookID, currentUserID);
+        }
+
+        /// <summary>
+        /// The get available books by search criteria.
+        /// </summary>
+        /// <param name="title">
+        /// The title.
+        /// </param>
+        /// <param name="author">
+        /// The author.
+        /// </param>
+        /// <param name="category">
+        /// The category.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        public List<Book> GetAvailableBooksBySearchCriteria(string title, string author, string category)
+        {
+            List<Book> books = new List<Book>();
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                books.AddRange(this.bookDalManager.GetBooksByTitle(title));
+            }
+
+            if (!string.IsNullOrEmpty(author))
+            {
+                books.AddRange(this.bookDalManager.GetBooksByAuthor(author));
+            }
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                books.AddRange(this.bookDalManager.GetBookByCategoryName(category));
+            }
+
+            return books;
+        }
+
+        /// <summary>
+        /// The get books borrowed by user by search criteria.
+        /// </summary>
+        /// <param name="title">
+        /// The title.
+        /// </param>
+        /// <param name="author">
+        /// The author.
+        /// </param>
+        /// <param name="category">
+        /// The category.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        public List<Book> GetBooksBorrowedByUserBySearchCriteria(string title, string author, string category)
+        {
+            // TODO GetCurrentUser session
+            int currentUserID = 1;
+
+            List<Book> books = new List<Book>();
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                books.AddRange(this.bookDalManager.GetBorrowedBookByTitle(title, currentUserID));
+            }
+
+            if (!string.IsNullOrEmpty(author))
+            {
+                books.AddRange(this.bookDalManager.GetBorrowedBookByAuthor(author, currentUserID));
+            }
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                books.AddRange(this.bookDalManager.GetBorrowedBookByCategory(category, currentUserID));
+            }
+
+            return books;
         }
     }
 }

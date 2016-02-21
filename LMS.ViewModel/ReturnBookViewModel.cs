@@ -7,7 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Windows;
 
 namespace LMS.ViewModel
@@ -61,15 +60,6 @@ namespace LMS.ViewModel
                 this.View = view;
                 this.bookManager = new BookManager();
                 this.booksIssuedByUser = new ObservableCollection<Book>(this.bookManager.GetBooksIssuedByUserID());
-
-                //searh box criteria
-                searchCriteriaCollection = new List<string>();
-                this.searchCriteriaCollection.Add("all");
-                this.searchCriteriaCollection.Add("title");
-                this.searchCriteriaCollection.Add("author");
-                this.searchCriteriaCollection.Add("category");
-                //end searh box criteria
-
             }
             catch (Exception exception)
             {
@@ -162,26 +152,5 @@ namespace LMS.ViewModel
             typeof(Book), 
             typeof(ReturnBookViewModel), 
             new UIPropertyMetadata(null));
-
-        #region Search Box
-
-
-        /// <summary>
-        /// The search criteria collection.
-        /// </summary>
-        private List<string> searchCriteriaCollection;
-
-        /// <summary>
-        /// Gets the search criteria collection.
-        /// </summary>
-        public List<string> SearchCriteriaCollection
-        {
-            get
-            {
-                return this.searchCriteriaCollection;
-            }
-        }
-
-        #endregion Search Box
     }
 }
