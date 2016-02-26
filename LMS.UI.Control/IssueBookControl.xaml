@@ -14,20 +14,22 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Style/SearchBoxStyle.xaml" />
-               </ResourceDictionary.MergedDictionaries>
-            <viewModel:IssueBookSearchBookViewModel x:Key="DataSearchSource"/>
+            </ResourceDictionary.MergedDictionaries>
+            <viewModel:IssueBookSearchBookViewModel x:Key="DataSearchSource">
+                <!--EventAggregator ="{Binding LMS.UI.Utility.EventAggregator.GetInstance()}"-->
+            </viewModel:IssueBookSearchBookViewModel>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <!--Shortcuts for control -->
     <UserControl.InputBindings>
-        <KeyBinding Key="F" Modifiers="Control" FocusManager.FocusedElement="{Binding ElementName=SearchTextBox}"/>
+        <KeyBinding Key="F" Modifiers="Control" FocusManager.FocusedElement="{Binding ElementName=SearchTextBox}" />
     </UserControl.InputBindings>
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Margin="15 15 15 0 ">
             <!-- Search Box -->
-            <control:SearchBookControl DataContext="{StaticResource DataSearchSource}"/>
+            <control:SearchBookControl DataContext="{StaticResource DataSearchSource}" />
         </StackPanel>
 
         <!-- ISSUE BOOK BUTTON -->
@@ -39,9 +41,13 @@
                 HorizontalAlignment="Right" />
         <StackPanel>
 
-            <TextBlock HorizontalAlignment="Center" Opacity="0.68" Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0 10 0 6">The list for the available books</TextBlock>
-
-            <DataGrid ItemsSource="{Binding Source={StaticResource DataSearchSource}, Path=BooksAvailableForIssue}" CanUserAddRows="False" CanUserSortColumns="True"
+            <TextBlock HorizontalAlignment="Center" Opacity="0.68"
+                       Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0 10 0 6">
+                The list for the available books
+            </TextBlock>
+            <!-- <DataGrid ItemsSource="{Binding Source={StaticResource DataSearchSource}, Path=BooksAvailableForIssue}" CanUserAddRows="False" CanUserSortColumns="True"
+           -->
+            <DataGrid ItemsSource="{Binding BooksAvailableForIssue}" CanUserAddRows="False" CanUserSortColumns="True"
                       IsReadOnly="True" AutoGenerateColumns="False" Width="Auto" Margin="15 5 15 15"
                       SelectionUnit="FullRow" SelectedItem="{Binding Path=SelectedBook, Mode=TwoWay}"
                       ScrollViewer.CanContentScroll="True"
@@ -49,7 +55,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Title}" Header="Title" />
                     <DataGridTextColumn Binding="{Binding Author}" Header="Author" />
-                    <DataGridTextColumn Binding="{Binding Category}" Header="Category"/>
+                    <DataGridTextColumn Binding="{Binding Category}" Header="Category" />
                     <DataGridTextColumn Binding="{Binding QuantityOfBooksIssued}" Header="Available quantity" />
                 </DataGrid.Columns>
             </DataGrid>

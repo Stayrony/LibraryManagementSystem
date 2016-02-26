@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Microsoft.Practices.Prism.PubSubEvents;
+
 namespace LMS.ViewModel
 {
     using System.Collections.Generic;
@@ -28,13 +30,22 @@ namespace LMS.ViewModel
         private RelayCommand searchReturnBookCommand;
 
         /// <summary>
+        /// The _event aggregator.
+        /// </summary>
+        private IEventAggregator _eventAggregator;
+
+        /// <summary>
         /// The books.
         /// </summary>
         private List<Book> books;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReturnBookSearchBookViewModel"/> class.
+        /// </summary>
         public ReturnBookSearchBookViewModel()
         {
-            this.books = BookManager.GetBooksIssuedByUserID();
+            // this.books = BookManager.GetBooksIssuedByUserID();
+            this._eventAggregator = UI.Utility.EventAggregator.GetInstance();
         }
 
         /// <summary>
@@ -58,37 +69,52 @@ namespace LMS.ViewModel
         /// </summary>
         public void SearchReturnBook()
         {
-            string title = string.Empty;
-            string author = string.Empty;
-            string category = string.Empty;
-
-            switch (this.SelectedSearchCriteria)
+            if (string.IsNullOrEmpty(base.SearchString))
             {
-                case "all":
-                    break;
-                case "title":
-                    title = base.SearchString;
-                    break;
-                case "author":
-                    author = base.SearchString;
-                    break;
-                case "category":
-                    category = base.SearchString;
-                    break;
+                books = BookManager.GetBooksIssuedByUserID();
+            }
+            else
+            {
+                string title = string.Empty;
+                string author = string.Empty;
+                string category = string.Empty;
+
+                switch (this.SelectedSearchCriteria)
+                {
+                    case "all":
+                        {
+                            title = base.SearchString;
+                            author = base.SearchString;
+                            category = base.SearchString;
+                            break;
+                        }
+
+                    case "title":
+                        title = base.SearchString;
+                        break;
+                    case "author":
+                        author = base.SearchString;
+                        break;
+                    case "category":
+                        category = base.SearchString;
+                        break;
+                }
+
+                this.books = base.BookManager.GetBooksBorrowedByUserBySearchCriteria(title, author, category);
             }
 
-            this.books = base.BookManager.GetBooksBorrowedByUserBySearchCriteria(title, author, category);
+            _eventAggregator.GetEvent<BorrowBooksEvent>().Publish(books);
         }
 
-        /// <summary>
-        /// Gets the books available for issue.
-        /// </summary>
-        public ObservableCollection<Book> BooksBorrowedByUser
-        {
-            get
-            {
-                return new ObservableCollection<Book>(this.books);
-            }
-        }
+        ///// <summary>
+        ///// Gets the books available for issue.
+        ///// </summary>
+        // public ObservableCollection<Book> BooksBorrowedByUser
+        // {
+        // get
+        // {
+        // return new ObservableCollection<Book>(this.books);
+        // }
+        // }
     }
 }

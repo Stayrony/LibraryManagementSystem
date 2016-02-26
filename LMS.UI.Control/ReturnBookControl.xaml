@@ -1,12 +1,12 @@
 ﻿<UserControl x:Class="LMS.UI.Control.ReturnBookControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:control="clr-namespace:LMS.UI.Control"
              xmlns:viewModel="clr-namespace:LMS.ViewModel;assembly=LMS.ViewModel"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
@@ -14,33 +14,38 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Style/SearchBoxStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <viewModel:ReturnBookSearchBookViewModel x:Key="DataSearchSource"/>
+            <viewModel:ReturnBookSearchBookViewModel x:Key="DataSearchSource" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Margin="15 15 15 0 ">
             <!-- Search Box -->
-            <control:SearchBookControl DataContext="{StaticResource DataSearchSource}"/>
+            <control:SearchBookControl DataContext="{StaticResource DataSearchSource}" />
         </StackPanel>
 
         <!-- RETURN BOOK BUTTON -->
-        <Button DockPanel.Dock="Bottom" Command="{Binding Path=ReturnBookCommand}" 
+        <Button DockPanel.Dock="Bottom" Command="{Binding Path=ReturnBookCommand}"
                 Style="{DynamicResource MaterialDesignRaisedDarkButton}"
                 Content="Return book"
-                Margin="15 15 15 15" 
+                Margin="15 15 15 15"
                 Width="250"
-                HorizontalAlignment="Right"/>
-        
+                HorizontalAlignment="Right" />
+
         <StackPanel>
-            <TextBlock HorizontalAlignment="Center" Opacity="0.68" Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0 10 0 6">The list for the borrowed books</TextBlock>
-            <DataGrid ItemsSource="{Binding Source={StaticResource DataSearchSource}, Path=BooksBorrowedByUser}" CanUserAddRows="False" CanUserSortColumns="True"
+            <TextBlock HorizontalAlignment="Center" Opacity="0.68"
+                       Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0 10 0 6">
+                The list for the borrowed books
+            </TextBlock>
+            <!--   <DataGrid ItemsSource="{Binding Source={StaticResource DataSearchSource}, Path=BooksBorrowedByUser}" CanUserAddRows="False" CanUserSortColumns="True"
+         -->
+            <DataGrid ItemsSource="{Binding BooksBorrowedByUser}" CanUserAddRows="False" CanUserSortColumns="True"
                       IsReadOnly="True" AutoGenerateColumns="False" Width="Auto" Margin="15 5 15 15"
                       SelectionUnit="FullRow" SelectedItem="{Binding Path=SelectedBook, Mode=TwoWay}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Title}" Header="Title"/>
-                    <DataGridTextColumn Binding="{Binding Author}" Header="Author"/>
-                    <DataGridTextColumn Binding="{Binding Category}" Header="Category"/>
+                    <DataGridTextColumn Binding="{Binding Title}" Header="Title" />
+                    <DataGridTextColumn Binding="{Binding Author}" Header="Author" />
+                    <DataGridTextColumn Binding="{Binding Category}" Header="Category" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

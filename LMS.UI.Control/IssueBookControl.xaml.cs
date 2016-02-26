@@ -6,7 +6,6 @@
 //   Interaction logic for IssueBookControl.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace LMS.UI.Control
 {
     using System.Windows;
@@ -50,7 +49,7 @@ namespace LMS.UI.Control
         /// </summary>
         public IssueBookControl()
         {
-            this.IssueBookViewModel = new IssueBookViewModel(this);
+            this.IssueBookViewModel = new IssueBookViewModel(this, UI.Utility.EventAggregator.GetInstance());
             this.DataContext = this.IssueBookViewModel;
             this.InitializeComponent();
             this.SetFocus();

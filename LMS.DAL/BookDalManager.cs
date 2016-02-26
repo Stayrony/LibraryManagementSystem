@@ -452,6 +452,7 @@ namespace LMS.DAL
             SqlParameter[] sqlParameters = new SqlParameter[3];
             sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = bookID };
             sqlParameters[1] = new SqlParameter("@UserID", SqlDbType.Int) { Value = userID };
+            //TODO delete or bit bookIssue
             sqlParameters[2] = new SqlParameter("@BookReturnedOn", SqlDbType.DateTime) { Value = DateTime.Now };
             try
             {

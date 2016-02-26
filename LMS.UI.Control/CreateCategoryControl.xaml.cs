@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Microsoft.Practices.Prism.PubSubEvents;
+
 namespace LMS.UI.Control
 {
     using System.Windows;
@@ -25,7 +27,7 @@ namespace LMS.UI.Control
         /// </summary>
         public CreateCategoryControl()
         {
-            this.CreateCategoryViewModel = new CreateCategoryViewModel(this);
+            this.CreateCategoryViewModel = new CreateCategoryViewModel(this, LMS.UI.Utility.EventAggregator.GetInstance());
             this.DataContext = this.CreateCategoryViewModel;
             this.InitializeComponent();
             this.SetFocus();

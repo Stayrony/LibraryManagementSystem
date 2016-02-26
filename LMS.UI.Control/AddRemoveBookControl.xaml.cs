@@ -63,7 +63,7 @@ namespace LMS.UI.Control
         /// </summary>
         public AddRemoveBookControl()
         {
-            this.AddRemoveBookViewModel = new AddRemoveBookViewModel(this);
+            this.AddRemoveBookViewModel = new AddRemoveBookViewModel(this, LMS.UI.Utility.EventAggregator.GetInstance());
             this.DataContext = this.AddRemoveBookViewModel;
             this.InitializeComponent();
             this.SetFocus();

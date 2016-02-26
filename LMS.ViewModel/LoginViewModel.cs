@@ -6,7 +6,6 @@
 //   The login view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace LMS.ViewModel
 {
     using System;
@@ -157,6 +156,8 @@ namespace LMS.ViewModel
                 UserManager userManager = new UserManager();
                 User user = userManager.EnterTheSystem(this.loginInfo);
 
+                Application.Current.Properties["UserID"] = user.UserID;
+
                 ControlManager.GetInstance().Place("MainWindow", "mainRegion", "DashboardControl");
             }
             catch (Exception exception)
@@ -166,6 +167,9 @@ namespace LMS.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the sign up link command.
+        /// </summary>
         public ICommand SignUpLinkCommand
         {
             get
@@ -174,6 +178,7 @@ namespace LMS.ViewModel
                 {
                     this.signUpCommand = new RelayCommand(param => SignUpLink());
                 }
+
                 return signUpCommand;
             }
         }
@@ -183,7 +188,7 @@ namespace LMS.ViewModel
         /// </summary>
         private void SignUpLink()
         {
-           ControlManager.GetInstance().Place("MainWindow", "mainRegion", "RegisterControl");
+            ControlManager.GetInstance().Place("MainWindow", "mainRegion", "RegisterControl");
         }
 
         #region Validation
@@ -262,6 +267,7 @@ namespace LMS.ViewModel
             {
                 error = "Blank characters are not allowed in password.";
             }
+
             return error;
         }
 
@@ -282,6 +288,7 @@ namespace LMS.ViewModel
             {
                 error = "Blank characters are not allowed in login.";
             }
+
             return error;
         }
 

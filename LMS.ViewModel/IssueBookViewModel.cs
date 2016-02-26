@@ -6,6 +6,9 @@
 //   The issue book view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using Microsoft.Practices.Prism.PubSubEvents;
+
 namespace LMS.ViewModel
 {
     using System;
@@ -48,7 +51,22 @@ namespace LMS.ViewModel
         /// <summary>
         /// The books.
         /// </summary>
-        private List<Book> books;
+        private ObservableCollection<Book> books;
+
+        /// <summary>
+        /// The _event aggregator.
+        /// </summary>
+        private IEventAggregator _eventAggregator;
+
+        /// <summary>
+        /// The subscription token for available books.
+        /// </summary>
+        private SubscriptionToken subscriptionTokenForAvailableBooks;
+
+        /// <summary>
+        /// The subscription token for add book.
+        /// </summary>
+        private SubscriptionToken subscriptionTokenForAddBook;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IssueBookViewModel"/> class.
@@ -56,21 +74,66 @@ namespace LMS.ViewModel
         /// <param name="view">
         /// The view.
         /// </param>
+        /// <param name="eventAggregator">
+        /// The event Aggregator.
+        /// </param>
         /// <exception cref="Exception">
         /// </exception>
-        public IssueBookViewModel(IView view)
+        public IssueBookViewModel(IView view, IEventAggregator eventAggregator)
         {
             try
             {
                 this.View = view;
                 this.bookManager = new BookManager();
-                this.books = new List<Book>();
-                this.books = this.bookManager.GetAllBooks();
+                this._eventAggregator = eventAggregator;
+                this.books = new ObservableCollection<Book>(bookManager.GetAllBooks());
+                AvailableBooksEvent updatedAvailableBooksEvent = _eventAggregator.GetEvent<AvailableBooksEvent>();
+                subscriptionTokenForAvailableBooks =
+                    updatedAvailableBooksEvent.Subscribe(
+                        UpdateAvailableBooksEventHandler, 
+                        ThreadOption.UIThread, 
+                        false, 
+                        (updatedBooks) => true);
+
+                CreateBookEvent bookAddedEvent = _eventAggregator.GetEvent<CreateBookEvent>();
+                subscriptionTokenForAddBook = bookAddedEvent.Subscribe(
+                    AddNewBookEventHandler, 
+                    ThreadOption.UIThread, 
+                    false, 
+                    (book) => true);
             }
             catch (Exception exception)
             {
                 throw exception;
             }
+        }
+
+        /// <summary>
+        /// The add new book event handler.
+        /// </summary>
+        /// <param name="book">
+        /// The book.
+        /// </param>
+        private void AddNewBookEventHandler(Book book)
+        {
+            BooksAvailableForIssue.Add(book);
+        }
+
+        /// <summary>
+        /// The update available books event handler.
+        /// </summary>
+        /// <param name="updatedBooks">
+        /// The updated books.
+        /// </param>
+        private void UpdateAvailableBooksEventHandler(List<Book> updatedBooks)
+        {
+            this.BooksAvailableForIssue.Clear();
+            foreach (Book book in updatedBooks)
+            {
+                BooksAvailableForIssue.Add(book);
+            }
+
+            // this.BooksAvailableForIssue = new ObservableCollection<Book>(updatedBooks);
         }
 
         /// <summary>
@@ -140,5 +203,16 @@ namespace LMS.ViewModel
             typeof(Book), 
             typeof(IssueBookViewModel), 
             new UIPropertyMetadata(null));
+
+        /// <summary>
+        /// Gets the books available for issue.
+        /// </summary>
+        public ObservableCollection<Book> BooksAvailableForIssue
+        {
+            get
+            {
+                return this.books;
+            }
+        }
     }
 }

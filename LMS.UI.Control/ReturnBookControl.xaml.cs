@@ -6,7 +6,6 @@
 //   Interaction logic for ReturnBookControl.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace LMS.UI.Control
 {
     using System;
@@ -26,7 +25,7 @@ namespace LMS.UI.Control
         /// </summary>
         public ReturnBookControl()
         {
-            this.ReturnBookViewModel = new ReturnBookViewModel(this);
+            this.ReturnBookViewModel = new ReturnBookViewModel(this, UI.Utility.EventAggregator.GetInstance());
             this.DataContext = this.ReturnBookViewModel;
             this.InitializeComponent();
             this.SetFocus();

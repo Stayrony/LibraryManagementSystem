@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Net.Configuration;
+using System.Net.Mime;
 
 namespace LMS.Service.BLL
 {
@@ -64,43 +65,6 @@ namespace LMS.Service.BLL
         }
 
         /// <summary>
-        /// The get books by search criteria.
-        /// </summary>
-        /// <param name="title">
-        /// The title.
-        /// </param>
-        /// <param name="author">
-        /// The author.
-        /// </param>
-        /// <param name="category">
-        /// The category.
-        /// </param>
-        /// <returns>
-        /// The <see cref="List"/>.
-        /// </returns>
-        public List<Book> GetBooksBySearchCriteria(string title, string author, string category)
-        {
-            List<Book> books = new List<Book>();
-
-            if (!string.IsNullOrEmpty(title))
-            {
-                books.AddRange(this.bookDalManager.GetBooksByTitle(title));
-            }
-
-            if (!string.IsNullOrEmpty(author))
-            {
-                books.AddRange(this.bookDalManager.GetBooksByAuthor(author));
-            }
-
-            if (!string.IsNullOrEmpty(category))
-            {
-                books.AddRange(this.bookDalManager.GetBookByCategoryName(category));
-            }
-
-            return books;
-        }
-
-        /// <summary>
         /// The get all books.
         /// </summary>
         /// <returns>
@@ -129,7 +93,8 @@ namespace LMS.Service.BLL
 
             // TODO GetCurrentUser session
             int currentUserID = 1;
-
+         //   currentUserID = int.TryParse(System.Windows.Application.Current.Properties["UserID"]);
+           
             if (book.QuantityOfBooksIssued == 0)
             {
                 throw new Exception("Current book are not available.");

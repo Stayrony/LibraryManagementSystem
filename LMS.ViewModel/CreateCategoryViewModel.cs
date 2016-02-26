@@ -6,6 +6,9 @@
 //   The create category view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using Microsoft.Practices.Prism.PubSubEvents;
+
 namespace LMS.ViewModel
 {
     using System;
@@ -27,22 +30,27 @@ namespace LMS.ViewModel
         /// <summary>
         /// The view.
         /// </summary>
-        private IView view;
+        private IView _view;
 
         /// <summary>
         /// The create category command.
         /// </summary>
-        private RelayCommand createCategoryCommand;
+        private RelayCommand _createCategoryCommand;
 
         /// <summary>
         /// The category manager.
         /// </summary>
-        private CategoryManager categoryManager;
+        private CategoryManager _categoryManager;
 
         /// <summary>
         /// The all categories.
         /// </summary>
-        private ObservableCollection<Category> allCategories;
+        private ObservableCollection<Category> _allCategories;
+
+        /// <summary>
+        /// The _event aggregator.
+        /// </summary>
+        private IEventAggregator _eventAggregator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateCategoryViewModel"/> class.
@@ -50,15 +58,19 @@ namespace LMS.ViewModel
         /// <param name="View">
         /// The view.
         /// </param>
+        /// <param name="eventAggregator">
+        /// The Event Aggregator
+        /// </param>
         /// <exception cref="Exception">
         /// </exception>
-        public CreateCategoryViewModel(IView View)
+        public CreateCategoryViewModel(IView View, IEventAggregator eventAggregator)
         {
             try
             {
-                this.view = View;
-                this.categoryManager = new CategoryManager();
-                this.allCategories = new ObservableCollection<Category>(categoryManager.GetAllCategories());
+                this._view = View;
+                this._eventAggregator = eventAggregator;
+                this._categoryManager = new CategoryManager();
+                this._allCategories = new ObservableCollection<Category>(_categoryManager.GetAllCategories());
             }
             catch (Exception exception)
             {
@@ -98,12 +110,12 @@ namespace LMS.ViewModel
         {
             get
             {
-                if (this.createCategoryCommand == null)
+                if (this._createCategoryCommand == null)
                 {
-                    this.createCategoryCommand = new RelayCommand(param => this.CreateCategory());
+                    this._createCategoryCommand = new RelayCommand(param => this.CreateCategory());
                 }
 
-                return this.createCategoryCommand;
+                return this._createCategoryCommand;
             }
         }
 
@@ -114,14 +126,16 @@ namespace LMS.ViewModel
         {
             try
             {
-                this.categoryManager.CreateCategory(this.CategoryName);
-                Category newCategory = new Category { CategoryName = this.CategoryName };
+                Category newCategory = this._categoryManager.CreateCategory(this.CategoryName);
+
+                // Category newCategory = new Category { CategoryName = this.CategoryName };
+                _eventAggregator.GetEvent<CreateCategoryEvent>().Publish(newCategory);
                 this.AllCategories.Insert(0, newCategory);
                 this.CategoryName = string.Empty;
             }
             catch (Exception exception)
             {
-                this.view.ShowError(exception.Message);
+                this._view.ShowError(exception.Message);
             }
         }
 
@@ -132,7 +146,7 @@ namespace LMS.ViewModel
         {
             get
             {
-                return this.allCategories;
+                return this._allCategories;
             }
         }
     }

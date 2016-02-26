@@ -15,6 +15,8 @@ using System.Windows;
 using LMS.Service.BLL;
 using LMS.Service.Domain;
 
+using Microsoft.Practices.Prism.PubSubEvents;
+
 namespace LMS.ViewModel
 {
     using System;
@@ -55,25 +57,62 @@ namespace LMS.ViewModel
         private BookManager bookManager;
 
         /// <summary>
+        /// The _all categories.
+        /// </summary>
+        private ObservableCollection<Category> _allCategories;
+
+        /// <summary>
+        /// The _event aggregator.
+        /// </summary>
+        private readonly IEventAggregator _eventAggregator;
+
+        /// <summary>
+        /// The subscription token.
+        /// </summary>
+        private SubscriptionToken subscriptionToken;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AddRemoveBookViewModel"/> class.
         /// </summary>
         /// <param name="view">
         /// The view.
         /// </param>
+        /// <param name="eventAggregator">
+        /// The event Aggregator.
+        /// </param>
         /// <exception cref="Exception">
         /// </exception>
-        public AddRemoveBookViewModel(IView view)
+        public AddRemoveBookViewModel(IView view, IEventAggregator eventAggregator)
         {
             try
             {
                 this.View = view;
+                this._eventAggregator = eventAggregator;
                 this.categoryManager = new CategoryManager();
                 this.bookManager = new BookManager();
+                this._allCategories = new ObservableCollection<Category>(this.categoryManager.GetAllCategories());
+                CreateCategoryEvent categoryAddedEvent = eventAggregator.GetEvent<CreateCategoryEvent>();
+                this.subscriptionToken = categoryAddedEvent.Subscribe(
+                    this.AddNewCategoryEventHandler, 
+                    ThreadOption.UIThread, 
+                    false, 
+                    (category) => true);
             }
             catch (Exception exception)
             {
                 throw exception;
             }
+        }
+
+        /// <summary>
+        /// The add new category event handler.
+        /// </summary>
+        /// <param name="category">
+        /// The category.
+        /// </param>
+        public void AddNewCategoryEventHandler(Category category)
+        {
+            this.AllCategories.Add(category);
         }
 
         /// <summary>
@@ -102,13 +141,16 @@ namespace LMS.ViewModel
             book.Title = this.Title;
             book.QuantityOfBooksIssued = this.SelectedQuantity;
             book.Category = this.SelectedCategory.CategoryName;
-            this.bookManager.CreateBook(book);
+            Book newBook = this.bookManager.CreateBook(book);
 
-            //Empty fields
-            this.Author=String.Empty;
-            this.Title = String.Empty;
+            this._eventAggregator.GetEvent<CreateBookEvent>().Publish(newBook);
+
+            // Empty fields
+            this.Author = string.Empty;
+            this.Title = string.Empty;
             this.SelectedCategory = null;
-            //TODO empty SelectedQuantity
+
+            // TODO empty SelectedQuantity
             this.SelectedQuantity = new int();
         }
 
@@ -289,10 +331,9 @@ namespace LMS.ViewModel
                 // }
 
                 // return result;
-               // return this.categoryManager.GetAllCategories();
-               return new ObservableCollection<Category>(this.categoryManager.GetAllCategories());
+                // return this.categoryManager.GetAllCategories();
+                return this._allCategories;
             }
-           
         }
     }
 }
