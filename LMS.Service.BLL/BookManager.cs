@@ -59,9 +59,18 @@ namespace LMS.Service.BLL
         /// <param name="book">
         /// The book.
         /// </param>
-        public void DeleteBook(Book book)
+        public void DeleteBook(Book book, int countRemove)
         {
-            this.bookDalManager.DeleteBook(book.BookID);
+            if (countRemove > book.QuantityOfBooksIssued)
+            {
+                //TODO Exception base
+                throw new Exception("You try to remove more books than available");
+            }
+            else
+            {
+                this.bookDalManager.DeleteBook(book.BookID, countRemove);
+            }
+          
         }
 
         /// <summary>

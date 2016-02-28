@@ -91,10 +91,11 @@ namespace LMS.DAL
         /// </param>
         /// <exception cref="Exception">
         /// </exception>
-        public void DeleteBook(int bookID)
+        public void DeleteBook(int bookID, int countRemove)
         {
-            SqlParameter[] sqlParameters = new SqlParameter[1];
+            SqlParameter[] sqlParameters = new SqlParameter[2];
             sqlParameters[0] = new SqlParameter("@BookID", SqlDbType.Int) { Value = bookID };
+            sqlParameters[1] = new SqlParameter("@CountRemove", SqlDbType.Int) { Value = countRemove };
             try
             {
                 this.sqlDalManager.DeleteProcedure("DeleteBook", sqlParameters);

@@ -1,21 +1,19 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IssueBookViewModel.cs" company="">
+// <copyright file="RemoveBookViewModel.cs" company="">
 //   
 // </copyright>
 // <summary>
-//   The issue book view model.
+//   The remove book view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using Microsoft.Practices.Prism.PubSubEvents;
 
 namespace LMS.ViewModel
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows;
-    using System.Windows.Data;
     using System.Windows.Input;
 
     using LMS.Service.BLL;
@@ -23,30 +21,27 @@ namespace LMS.ViewModel
     using LMS.UI.Contract;
     using LMS.UI.Utility;
 
+    using Microsoft.Practices.Prism.PubSubEvents;
+
     /// <summary>
-    /// The issue book view model.
+    /// The remove book view model.
     /// </summary>
-    public class IssueBookViewModel : ViewModelBase
+    public class RemoveBookViewModel : ViewModelBase
     {
+        /// <summary>
+        /// The event aggregator.
+        /// </summary>
+        private IEventAggregator _eventAggregator;
+
+        /// <summary>
+        /// The remove book command.
+        /// </summary>
+        private RelayCommand removeBookCommand;
+
         /// <summary>
         /// The view.
         /// </summary>
         private IView View;
-
-        /// <summary>
-        /// The issue book command.
-        /// </summary>
-        private RelayCommand issueBookCommand;
-
-        /// <summary>
-        /// The search book command.
-        /// </summary>
-        private RelayCommand searchBookCommand;
-
-        /// <summary>
-        /// The book manager.
-        /// </summary>
-        private BookManager bookManager;
 
         /// <summary>
         /// The books.
@@ -54,9 +49,9 @@ namespace LMS.ViewModel
         private ObservableCollection<Book> books;
 
         /// <summary>
-        /// The _event aggregator.
+        /// The book manager.
         /// </summary>
-        private IEventAggregator _eventAggregator;
+        private BookManager bookManager;
 
         /// <summary>
         /// The subscription token for available books.
@@ -69,38 +64,40 @@ namespace LMS.ViewModel
         private SubscriptionToken subscriptionTokenForAddBook;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IssueBookViewModel"/> class.
+        /// Initializes a new instance of the <see cref="RemoveBookViewModel"/> class.
         /// </summary>
         /// <param name="view">
         /// The view.
         /// </param>
         /// <param name="eventAggregator">
-        /// The event Aggregator.
+        /// The event aggregator.
         /// </param>
         /// <exception cref="Exception">
         /// </exception>
-        public IssueBookViewModel(IView view, IEventAggregator eventAggregator)
+        public RemoveBookViewModel(IView view, IEventAggregator eventAggregator)
         {
             try
             {
+                this._eventAggregator = eventAggregator;
                 this.View = view;
                 this.bookManager = new BookManager();
-                this._eventAggregator = eventAggregator;
-                this.books = new ObservableCollection<Book>(bookManager.GetAllBooks());
+                this.books = new ObservableCollection<Book>(this.bookManager.GetAllBooks());
+
                 AvailableBooksEvent updatedAvailableBooksEvent = _eventAggregator.GetEvent<AvailableBooksEvent>();
                 subscriptionTokenForAvailableBooks =
                     updatedAvailableBooksEvent.Subscribe(
-                        UpdateAvailableBooksEventHandler, 
-                        ThreadOption.UIThread, 
-                        false, 
+                        UpdateAvailableBooksEventHandler,
+                        ThreadOption.UIThread,
+                        false,
                         (updatedBooks) => true);
 
                 CreateBookEvent bookAddedEvent = _eventAggregator.GetEvent<CreateBookEvent>();
                 subscriptionTokenForAddBook = bookAddedEvent.Subscribe(
-                    AddNewBookEventHandler, 
-                    ThreadOption.UIThread, 
-                    false, 
+                    AddNewBookEventHandler,
+                    ThreadOption.UIThread,
+                    false,
                     (book) => true);
+
             }
             catch (Exception exception)
             {
@@ -116,7 +113,7 @@ namespace LMS.ViewModel
         /// </param>
         private void AddNewBookEventHandler(Book book)
         {
-            BooksAvailableForIssue.Add(book);
+            Books.Add(book);
         }
 
         /// <summary>
@@ -127,56 +124,57 @@ namespace LMS.ViewModel
         /// </param>
         private void UpdateAvailableBooksEventHandler(List<Book> updatedBooks)
         {
-            this.BooksAvailableForIssue.Clear();
+            this.Books.Clear();
             foreach (Book book in updatedBooks)
             {
-                BooksAvailableForIssue.Add(book);
+                Books.Add(book);
             }
-
-            // this.BooksAvailableForIssue = new ObservableCollection<Book>(updatedBooks);
         }
 
         /// <summary>
-        /// Gets the issue book command.
+        /// Gets the remove book command.
         /// </summary>
-        public ICommand IssueBookCommand
+        public ICommand RemoveBookCommand
         {
             get
             {
-                if (this.issueBookCommand == null)
+                if (this.removeBookCommand == null)
                 {
-                    this.issueBookCommand = new RelayCommand(param => this.IssueBook(), param => this.CanIssueBook);
+                    this.removeBookCommand = new RelayCommand(param => this.RemoveBook(), param => CanRemoveBook);
                 }
 
-                return this.issueBookCommand;
+                return this.removeBookCommand;
             }
         }
 
         /// <summary>
-        /// Gets a value indicating whether can issue book.
+        /// The remove book.
         /// </summary>
-        public bool CanIssueBook
+        private void RemoveBook()
         {
-            get
+            try
             {
-                // check is Selected book
-                if (this.SelectedBook != null)
+                if (this.RemoveQuantity > this.SelectedBook.QuantityOfBooksIssued)
                 {
-                    return true;
+                    throw new Exception("You try to remove more books than available");
                 }
-
-                return false;
+                else if (this.RemoveQuantity == this.SelectedBook.QuantityOfBooksIssued)
+                {
+                    this.Books.Remove(this.SelectedBook);
+                    this.bookManager.DeleteBook(this.SelectedBook, this.RemoveQuantity);
+                }
+                else
+                {
+                    //TODO Update QuantityOfBooksIssued
+                    this.bookManager.DeleteBook(this.SelectedBook, this.RemoveQuantity);
+                }
             }
-        }
-
-        /// <summary>
-        /// The issue book.
-        /// </summary>
-        private void IssueBook()
-        {
-            this.bookManager.IssueBook(this.SelectedBook, 1);
-
-            // TODO update quantity of issued book
+            catch (Exception exception)
+            {
+                // TODO create Exception Base
+                this.View.ShowError(exception.ToString());
+            }
+          
         }
 
         /// <summary>
@@ -205,13 +203,63 @@ namespace LMS.ViewModel
             new UIPropertyMetadata(null));
 
         /// <summary>
-        /// Gets the books available for issue.
+        /// Gets the list quantity.
         /// </summary>
-        public ObservableCollection<Book> BooksAvailableForIssue
+        public IList<int> ListQuantity
+        {
+            get
+            {
+                return new List<int>(Enumerable.Range(1, 500));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the remove quantity.
+        /// </summary>
+        public int RemoveQuantity
+        {
+            get
+            {
+                return (int)this.GetValue(RemoveQuantityProperty);
+            }
+
+            set
+            {
+                this.SetValue(RemoveQuantityProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// The remove quantity property.
+        /// </summary>
+        public static readonly DependencyProperty RemoveQuantityProperty = DependencyProperty.Register(
+            "RemoveQuantity", 
+            typeof(int), 
+            typeof(AddBookViewModel), 
+            new PropertyMetadata(0));
+
+        /// <summary>
+        /// Gets the books.
+        /// </summary>
+        public ObservableCollection<Book> Books
         {
             get
             {
                 return this.books;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether can remove book.
+        /// </summary>
+        public bool CanRemoveBook {
+            get
+            {
+                if (SelectedBook == null)
+                {
+                    return false;
+                }
+                return true;
             }
         }
     }

@@ -29,12 +29,12 @@ namespace LMS.UI
                 ControlManager.GetInstance().Add("MainWindow", typeof(MainWindow));
                 ControlManager.GetInstance().Add("LoginControl", typeof(LoginControl));
                 ControlManager.GetInstance().Add("DashboardControl", typeof(DashboardControl));
-                ControlManager.GetInstance().Add("AddRemoveBookControl", typeof(AddRemoveBookControl));
+                ControlManager.GetInstance().Add("AddBookControl", typeof(AddBookControl));
                 ControlManager.GetInstance().Add("CreateCategoryControl", typeof(CreateCategoryControl));
                 ControlManager.GetInstance().Add("IssueBookControl", typeof(IssueBookControl));
                 ControlManager.GetInstance().Add("ReturnBookControl", typeof(ReturnBookControl));
                 ControlManager.GetInstance().Add("RegisterControl", typeof(RegisterControl));
-
+                ControlManager.GetInstance().Add("RemoveBookControl", typeof(RemoveBookControl));
 
                 this.mainWindow = ControlManager.GetInstance().GetControl("MainWindow") as MainWindow;
                 this.mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;

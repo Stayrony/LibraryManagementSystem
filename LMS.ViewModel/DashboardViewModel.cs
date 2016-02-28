@@ -46,7 +46,12 @@ namespace LMS.ViewModel
         /// <summary>
         /// The add remote book command.
         /// </summary>
-        private RelayCommand addRemoteBookCommand;
+        private RelayCommand addBookCommand;
+
+        /// <summary>
+        /// The remove book command.
+        /// </summary>
+        private RelayCommand removeBookCommand;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DashboardViewModel"/> class.
@@ -164,27 +169,58 @@ namespace LMS.ViewModel
         /// <summary>
         /// Gets the add remove book command.
         /// </summary>
-        public ICommand AddRemoveBookCommand
+        public ICommand AddBookCommand
         {
             get
             {
-                if (this.addRemoteBookCommand == null)
+                if (this.addBookCommand == null)
                 {
-                    this.addRemoteBookCommand = new RelayCommand(param => this.AddRemoveBook());
+                    this.addBookCommand = new RelayCommand(param => this.AddBook());
                 }
 
-                return addRemoteBookCommand;
+                return addBookCommand;
             }
         }
 
         /// <summary>
         /// The add remove book.
         /// </summary>
-        private void AddRemoveBook()
+        private void AddBook()
         {
             try
             {
-                ControlManager.GetInstance().Place("DashboardControl", "mainRegion", "AddRemoveBookControl");
+                ControlManager.GetInstance().Place("DashboardControl", "mainRegion", "AddBookControl");
+            }
+            catch (Exception exception)
+            {
+                this.View.ShowError(exception.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the remove book command.
+        /// </summary>
+        public ICommand RemoveBookCommand
+        {
+            get
+            {
+                if (this.removeBookCommand == null)
+                {
+                    this.removeBookCommand = new RelayCommand(param => this.RemoveBook());
+                }
+
+                return removeBookCommand;
+            }
+        }
+
+        /// <summary>
+        /// The remove book.
+        /// </summary>
+        private void RemoveBook()
+        {
+            try
+            {
+                ControlManager.GetInstance().Place("DashboardControl", "mainRegion", "RemoveBookControl");
             }
             catch (Exception exception)
             {

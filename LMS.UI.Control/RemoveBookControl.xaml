@@ -1,15 +1,13 @@
-﻿<UserControl x:Class="LMS.UI.Control.IssueBookControl"
+﻿<UserControl x:Class="LMS.UI.Control.RemoveBookControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-             xmlns:control="clr-namespace:LMS.UI.Control"
              xmlns:viewModel="clr-namespace:LMS.ViewModel;assembly=LMS.ViewModel"
+             xmlns:control="clr-namespace:LMS.UI.Control"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-
-
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -32,10 +30,10 @@
             <control:SearchBookControl DataContext="{StaticResource DataSearchSource}" />
         </StackPanel>
 
-        <!-- ISSUE BOOK BUTTON -->
-        <Button DockPanel.Dock="Bottom" Command="{Binding Path=IssueBookCommand}"
+        <!-- REMOVE BOOK BUTTON -->
+        <Button DockPanel.Dock="Bottom" Command="{Binding Path=RemoveBookCommand}"
                 Style="{DynamicResource MaterialDesignRaisedDarkButton}"
-                Content="Issue book"
+                Content="Remove book"
                 Margin="15 15 15 15"
                 Width="250"
                 HorizontalAlignment="Right" />
@@ -43,11 +41,10 @@
 
             <TextBlock HorizontalAlignment="Center" Opacity="0.68"
                        Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0 10 0 6">
-                The list for the available books
+                The list for the all books
             </TextBlock>
-            <!-- <DataGrid ItemsSource="{Binding Source={StaticResource DataSearchSource}, Path=BooksAvailableForIssue}" CanUserAddRows="False" CanUserSortColumns="True"
-           -->
-            <DataGrid ItemsSource="{Binding BooksAvailableForIssue}" CanUserAddRows="False" CanUserSortColumns="True"
+
+            <DataGrid ItemsSource="{Binding Books}" CanUserAddRows="False" CanUserSortColumns="True"
                       IsReadOnly="True" AutoGenerateColumns="False" Width="Auto" Margin="15 5 15 15"
                       SelectionUnit="FullRow" SelectedItem="{Binding Path=SelectedBook, Mode=TwoWay}"
                       ScrollViewer.CanContentScroll="True"

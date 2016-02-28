@@ -72,8 +72,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddRemoveBookControl.xaml.cs">
-      <DependentUpon>AddRemoveBookControl.xaml</DependentUpon>
+    <Compile Include="AddBookControl.xaml.cs">
+      <DependentUpon>AddBookControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreateCategoryControl.xaml.cs">
       <DependentUpon>CreateCategoryControl.xaml</DependentUpon>
@@ -94,6 +94,9 @@
     <Compile Include="RegisterControl.xaml.cs">
       <DependentUpon>RegisterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RemoveBookControl.xaml.cs">
+      <DependentUpon>RemoveBookControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReturnBookControl.xaml.cs">
       <DependentUpon>ReturnBookControl.xaml</DependentUpon>
     </Compile>
@@ -102,7 +105,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AddRemoveBookControl.xaml">
+    <Page Include="AddBookControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,6 +130,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RegisterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RemoveBookControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
