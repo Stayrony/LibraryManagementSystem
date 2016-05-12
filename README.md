@@ -3,6 +3,8 @@ Library Management Software is capable to manage all the functionalities of a li
 The features of Library management system are login, register, add category, add / remove book, search / issue book, return book, etc. 
 This project is developed using WPF, C#.NET and Microsoft SQL Server. 
 
+Project still in the works…
+
 **Credits**
 
 
@@ -20,4 +22,11 @@ This application uses Open Source components. You can find the source code of th
 
 
 [MaterialDesignInXamlToolkit]: <https://github.com/ButchersBoy/MaterialDesignInXamlToolkit> 
+
+##Description of an application
+
+Login Screen: 
+![alt text][login]
+
+[login]: blob:https%3A//drive.google.com/025553c9-3c7d-4ae4-9c10-9a36ac6badff "Login Screen"
 
