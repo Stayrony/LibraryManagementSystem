@@ -25,32 +25,31 @@ This application uses Open Source components. You can find the source code of th
 
 ##Description of an application
 
-Login Screen: 
+#####Login Screen: 
 ![Login Screen][login]
 
-
-Register Screen:
+#####Register Screen:
 ![Register Screen][register]
 
-If user logon with valid login and password he gets action screen:
+#####If user logon with valid login and password he gets action screen:
 ![Dashboard Screen][dashboard]
 ![Menu][menu]
 
-Manage Categories:
+#####Manage Categories:
 ![Category Screen][category]
 
-Add Books:
+#####Add Books:
 ![Add Books][add]
 
-Remove Books:
+#####Remove Books:
 ![Remove Books][remove]
 
-Return book shows all books issued to user and user can select book that he wishes to return:
+#####Return book shows all books issued to user and user can select book that he wishes to return:
 ![Return Book][borrowed]
 
 [login]: https://github.com/Stayrony/LibraryManagementSystem/blob/master/GitHubDescription/Login.png "Login Screen"
 [register]: https://github.com/Stayrony/LibraryManagementSystem/blob/master/GitHubDescription/Register.png "Register Screen"
-[dashboard]: https://github.com/Stayrony/LibraryManagementSystem/blob/master/GitHubDescription/Register.png "Dashboard Screen"
+[dashboard]: https://github.com/Stayrony/LibraryManagementSystem/blob/master/GitHubDescription/Dashboard.png "Dashboard Screen"
 [menu]: https://github.com/Stayrony/LibraryManagementSystem/blob/master/GitHubDescription/Menu.png "Main menu"
 [category]: https://github.com/Stayrony/LibraryManagementSystem/blob/master/GitHubDescription/CreateCategory.png "Category Screen"
 [add]: https://github.com/Stayrony/LibraryManagementSystem/blob/master/GitHubDescription/CreateBook.png "Create Book"
