@@ -1,4 +1,10 @@
 ﻿# LibraryManagementSystem
+ 
+ <a href="https://scan.coverity.com/projects/stayrony-librarymanagementsystem">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/13848/badge.svg"/>
+</a>
+
 Library Management Software is capable to manage all the functionalities of a library.
 The features of Library management system are login, register, add category, add / remove book, search / issue book, return book, etc. 
 This project is developed using WPF, C#.NET and Microsoft SQL Server. 
